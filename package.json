@@ -1,0 +1,20 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vehicle-Rental-App/client.git"
+  },
+  "keywords": [],
+  "author": "Farhan Haryawan, Mohammad Fitrah Ramadhan Lamusu, Muhammad Akbar Habiby Khalid",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vehicle-Rental-App/client/issues"
+  },
+  "homepage": "https://github.com/Vehicle-Rental-App/client#readme"
+}
