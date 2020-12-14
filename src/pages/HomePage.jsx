@@ -1,51 +1,42 @@
 import React from "react";
+import "../styles/home.css";
 
 export default function HomePage() {
   return (
-    <div className="container mt-5">
-      <div className="d-flex justify-content-center shadow-lg">
-        <div className="w-75 bg-info shadow-lg p-3">
-          <div class="input-group mb-2">
-            <div class="input-group-prepend">
-              <div class="input-group-text">
-                <i className="fa fa-search-location"></i>
-              </div>
+    <>
+      <img
+        src="./car.png"
+        alt=""
+        className="car-image float-right mr-4"
+        style={{ maxWidth: "37%", right: "1%", position: "absolute" }}
+      />
+      <div className="container mt-5 h-75">
+        <div className="row align-items-center">
+          <div
+            className="w-75 bg-card shadow-lg p-3 rounded position-absolute"
+            style={{ marginTop: "56%", marginLeft: "5%" }}
+          >
+            <div>
+              <strong>Rent a vehicle</strong>
             </div>
-            <input
-              type="text"
-              class="form-control"
-              id="inlineFormInputGroup"
-              placeholder="Bali"
-              required
-            />
-          </div>
-          <div className="mt-3">
-            <div class="form-row align-items-center">
-              <div class="col-auto">
-                <label for="inlineFormInput">Start Date</label>
-                <input
-                  type="date"
-                  class="form-control mb-2"
-                  id="inlineFormInput"
-                />
-              </div>
-              <div class="col-auto">
-                <label for="inlineFormInputGroup">End Date</label>
-                <div class="input-group mb-2">
+            <div className="row mx-3 py-2">
+              <div className="col-4 row">
+                <div className="col-2">
+                  <img src="./loc.svg" alt="" className="pt-2" />
+                </div>
+                <div className="col-10 row">
+                  <small className="text-secondary">Search Location</small>
                   <input
-                    type="date"
-                    class="form-control"
-                    id="inlineFormInputGroup"
+                    className="bg-transparent border-0"
+                    type="text"
+                    placeholder="Bali"
                   />
                 </div>
-              </div>
-              <div className="col-auto">
-                <button className="btn btn-primary ml-5 mt-4">Search</button>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

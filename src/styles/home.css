@@ -1,0 +1,8 @@
+html {
+  min-height: 100%;
+}
+body {
+  height: 100%;
+  background-repeat: no-repeat;
+  background: -webkit-linear-gradient(90deg, white 30%, #11274a 30%);
+}
