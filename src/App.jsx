@@ -2,7 +2,7 @@ import { Route, Switch } from "react-router-dom";
 import { HomePage, LoginPage, RegisterPage } from "./pages";
 import { Navbar } from "./components";
 
-function App() {
+export default function App() {
   return (
     <>
       <Navbar />
@@ -20,5 +20,3 @@ function App() {
     </>
   );
 }
-
-export default App;
