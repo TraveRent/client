@@ -16,6 +16,9 @@ export default function LoginPage() {
       case 'password':
         setUser({ ...user, password: value })
         break
+      default:
+        setUser(user)
+        break
     }
   }
 
