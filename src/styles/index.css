@@ -9,6 +9,10 @@
   background-color: rgba(66, 89, 124, 1);
 }
 
+nav {
+  background-color: #11274a;
+}
+
 .nunito {
   font-family: "Nunito", sans-serif;
 }
@@ -23,15 +27,17 @@
 .upsize {
   font-size: 3em;
 }
-
 .mt-minus {
-  margin-top: -10vh;
+  margin-top: -60px;
 }
-
 .text-blue-dark {
   color: rgba(17, 39, 74, 1);
 }
 
 .bg-gold {
   background-color: rgba(185, 164, 129, 1);
+}
+
+body {
+  overflow-x: hidden; /* Hide horizontal scrollbar */
 }

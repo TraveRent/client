@@ -1,7 +1,7 @@
 import { Route, Switch } from "react-router-dom";
-import { HomePage, LoginPage, RegisterPage } from "./pages";
+import { HomePage, LoginPage, RegisterPage, ResultPage } from "./pages";
 import { Navbar } from "./components";
-import HomePagee from "./pages/HomePagee";
+
 export default function App() {
   return (
     <>
@@ -16,8 +16,8 @@ export default function App() {
         <Route path="/register">
           <RegisterPage />
         </Route>
-        <Route path="/a">
-          <HomePagee></HomePagee>
+        <Route path="/result">
+          <ResultPage />
         </Route>
       </Switch>
     </>

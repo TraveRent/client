@@ -6,7 +6,7 @@ export default function Navbar() {
   const [login, setLogin] = useState(false);
   return (
     <>
-      <nav className="d-flex justify-content-between mt-4">
+      <nav className="d-flex justify-content-between pt-4">
         <div className="mt-2 ml-3">
           <Link to="/">
             <svg

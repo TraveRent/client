@@ -1,11 +1,15 @@
 import React from "react";
+import { useState } from "react";
+import "../styles/home.css";
 
 export default function HomePage() {
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState([]);
   return (
-    <>
-      <div className="row mx-3 form-group mt-5">
-        <div className="col-7 row">
-          <div className="col-8 ml-4 p-auto russo-one text-white upsize">
+    <div className="">
+      <div className="row body px-3 pt-5 pb-5">
+        <div className="col-7 body row">
+          <div className="col-8 ml-4 pb-0 russo-one text-white upsize">
             Let Us Take You Around
           </div>
           <div className="russo-one ml-5 p-auto text-white mt-minus">
@@ -65,10 +69,15 @@ export default function HomePage() {
             />
           </div>
           <div className="col-3 m-auto text-center">
-            <button className="btn bg-gold px-5">Search</button>
+            <button
+              className="btn bg-gold px-5"
+              onClick={() => setResult(["a", "b"])}
+            >
+              Search
+            </button>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
