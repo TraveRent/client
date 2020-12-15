@@ -1,5 +1,13 @@
 import { Route, Switch } from "react-router-dom";
-import { HomePage, LoginPage, RegisterPage, ResultPage } from "./pages";
+import {
+  HomePage,
+  LoginPage,
+  RegisterPage,
+  SelectUserProfilePage,
+  DashboardVendorPage,
+  AddUnitPage,
+  ResultPage,
+} from "./pages";
 import { Navbar } from "./components";
 
 export default function App() {
@@ -10,6 +18,9 @@ export default function App() {
         <Route exact path="/">
           <HomePage />
         </Route>
+        <Route path="/profile">
+          <SelectUserProfilePage />
+        </Route>
         <Route path="/login">
           <LoginPage />
         </Route>
@@ -18,6 +29,12 @@ export default function App() {
         </Route>
         <Route path="/result">
           <ResultPage />
+        </Route>
+        <Route path="/dashboard">
+          <DashboardVendorPage />
+        </Route>
+        <Route path="/unit/add">
+          <AddUnitPage />
         </Route>
       </Switch>
     </>

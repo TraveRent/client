@@ -46,7 +46,7 @@ export default function HomePage() {
             <div className="col-7 px-0 row my-auto text-white">
               <small className="">Search Location</small>
               <input
-                className="bg-transparent text-white border-0"
+                className="bg-transparent inputs text-white border-0"
                 type="text"
                 placeholder="Bali"
               />

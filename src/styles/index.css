@@ -41,3 +41,11 @@ nav {
 body {
   overflow-x: hidden; /* Hide horizontal scrollbar */
 }
+
+.bg-card2 {
+  background-color: rgba(41, 61, 92, 1);
+}
+
+.regbtn {
+  font-weight: bold;
+}
