@@ -6,3 +6,49 @@ body {
   background-repeat: no-repeat;
   background: -webkit-linear-gradient(90deg, white 30%, #11274a 30%);
 }
+::placeholder {
+  color: white;
+  opacity: 1;
+}
+
+.car {
+  background: rgba(41, 61, 92, 1);
+}
+
+small {
+  font-size: x-small;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  left: 0;
+  color: white;
+}
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  color: white;
+}
+
+input::-webkit-datetime-edit {
+  position: relative;
+  left: 15px;
+  color: white;
+  color: white;
+}
+
+input::-webkit-datetime-edit-fields-wrapper {
+  position: relative;
+  color: white;
+  left: 15px;
+  margin-left: 5%;
+}
+
+.m-minus {
+  margin-top: -25px;
+}
+input[type="text"] {
+  width: 100px;
+}
+input:focus {
+  outline: none;
+}
