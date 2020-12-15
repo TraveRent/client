@@ -2,6 +2,7 @@ import React, { useEffect } from "react"
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import fetchUnit from '../hooks/fetchUnit'
+import { setLoading } from "../store/actions"
 
 export default function DashboardVendorPage() {
   const history = useHistory()
@@ -16,10 +17,13 @@ export default function DashboardVendorPage() {
   }, [dispatch, accessToken])
 
   const switchPage = (page, unitId) => {
+    console.log(page)
     if( page === 'addPage')
       history.push('/unit/add')
-    if( page === 'detailPage')
-      history.push(`/unit/${unitId}`)
+    if( page === 'editPage') {
+      dispatch(setLoading())
+      history.push(`/unit/edit/${unitId}`)
+    }
   }
 
 
@@ -38,7 +42,7 @@ export default function DashboardVendorPage() {
                 <h5 className="card-title">Rp. {unit.price}</h5>
                 </div>
                 <div className="card-body">
-                  <button className="btn btn-primary" onClick={() => switchPage('detailPage')}>Detail</button>
+                  <button className="btn btn-primary" onClick={() => switchPage('editPage', unit._id)}>Edit</button>
                 </div>
               </div>
             </div>

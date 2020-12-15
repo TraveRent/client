@@ -1,105 +1,113 @@
-import React, { useState } from 'react'
-import Swal from 'sweetalert2'
-import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams, useHistory } from 'react-router-dom'
+import fetchUnitById from '../hooks/fetchUnitById'
 import { isURL } from 'validator'
-import addUnit from '../hooks/addUnit'
+import Swal from 'sweetalert2'
 
-export default function AddUnitPage() {
-  const accessToken = localStorage.getItem('access_token')
+export default function EditUnitPage() {
   const history = useHistory()
+  const accessToken = localStorage.getItem('access_token')
+  const { id } = useParams()
   const dispatch = useDispatch()
-  const [newUnit, setNewUnit] = useState({
-    name: '',
-    brand: '',
-    type: '',
-    year: 0,
-    category: '',
-    imageUrl: '',
-    location: '',
-    price: ''
-  })
+  const unit = useSelector((state) => state.unit)
+  const loading = useSelector((state) => state.loading)
+  const error = useSelector((state) => state.error)
+  const [updatedUnit, setUpdateUnit] = useState({})
+
+// ! edit issue
+  useEffect(() => {
+    dispatch(fetchUnitById(id))
+    if(!loading)
+    setUpdateUnit({ ...unit })
+  }, [dispatch, id])
 
   const handleInput = (target, value) => {
     switch(target) {
       case 'name':
-        setNewUnit({ ...newUnit, name: value })
+        setUpdateUnit({ ...updatedUnit, name: value })
         break
       case 'brand':
-        setNewUnit({ ...newUnit, brand: value })
+        setUpdateUnit({ ...updatedUnit, brand: value })
         break
       case 'type':
-        setNewUnit({ ...newUnit, type: value })
+        setUpdateUnit({ ...updatedUnit, type: value })
         break
       case 'year':
-        setNewUnit({ ...newUnit, year: value })
+        setUpdateUnit({ ...updatedUnit, year: value })
         break
       case 'category':
-        setNewUnit({ ...newUnit, category: value })
+        setUpdateUnit({ ...updatedUnit, category: value })
         break
       case 'imageUrl':
-        setNewUnit({ ...newUnit, imageUrl: value })
+        setUpdateUnit({ ...updatedUnit, imageUrl: value })
         break
       case 'location':
-        setNewUnit({ ...newUnit, location: value })
+        setUpdateUnit({ ...updatedUnit, location: value })
         break
       case 'price':
-        setNewUnit({ ...newUnit, price: value })
+        setUpdateUnit({ ...updatedUnit, price: value })
         break
       default:
-        setNewUnit(newUnit)
+        setUpdateUnit(updatedUnit)
         break
     }
   }
 
   const handleSubmit = (event) => {
-      event.preventDefault()
-      // console.log(newUnit)
-      const errors = []
-      if(!newUnit.name)
-        errors.push('Name cannot be empty')
-      if(!newUnit.brand)
-        errors.push('Brand cannot be empty')
-      if(!newUnit.type)
-        errors.push('Type cannot be empty')
-      if(!newUnit.year)
-        errors.push('Year cannot be empty')
-      if(!newUnit.category)
-        errors.push('Category cannot be empty')
-      if(!newUnit.imageUrl)
-        errors.push('Image URL cannot be empty')
-      if(!isURL(newUnit.imageUrl))
-        errors.push('Invalid image url')
-      if(!newUnit.location)
-        errors.push('Location cannot be empty')
-      if(!newUnit.price)
-        errors.push('Price cannot be empty')
+    event.preventDefault()
+    // console.log(newUnit)
+    const errors = []
+    if(!updatedUnit.name)
+      errors.push('Name cannot be empty')
+    if(!updatedUnit.brand)
+      errors.push('Brand cannot be empty')
+    if(!updatedUnit.type)
+      errors.push('Type cannot be empty')
+    if(!updatedUnit.year)
+      errors.push('Year cannot be empty')
+    if(!updatedUnit.category)
+      errors.push('Category cannot be empty')
+    if(!updatedUnit.imageUrl)
+      errors.push('Image URL cannot be empty')
+    if(!isURL(updatedUnit.imageUrl))
+      errors.push('Invalid image url')
+    if(!updatedUnit.location)
+      errors.push('Location cannot be empty')
+    if(!updatedUnit.price)
+      errors.push('Price cannot be empty')
 
 
-      if(errors.length !== 0) {
-        Swal.fire({
-          title: 'Oops...',
-          icon: 'error',
-          html: `
-          <div class="ml-5 text-left">
-            ${errors.join('<br/>')}
-          </div>
-          `
-        })
-      } else {
-        // console.log(newUnit, 'ini masuk')
-        dispatch(addUnit(newUnit, accessToken))
-        history.push('/dashboard')
-      }
+    if(errors.length !== 0) {
+      Swal.fire({
+        title: 'Oops...',
+        icon: 'error',
+        html: `
+        <div class="ml-5 text-left">
+          ${errors.join('<br/>')}
+        </div>
+        `
+      })
+    } else {
+      // console.log(unit, 'ini masuk')
+      // dispatch(addUnit(newUnit, accessToken))
+      // history.push('/dashboard')
+    }
   }
 
-
+  if(loading) return (
+    <>
+      <div className="container text-center mt-5">
+        <h1>Loading....</h1>
+      </div>
+    </>
+  )
   return (
     <>
-      <h1 className="text-center">Please fill this form for add your unit</h1>
-      <div className="container d-flex">
+      <h1 className="text-center">Edit your unit here...</h1>
+      <div className="container d-flex mt-5">
         <div className="col-8">
-          <img src={newUnit.imageUrl} alt="unit-img" style={{ width: '40rem', height: '30rem' }}/>
+          <img src={unit.imageUrl} alt="unit-img" style={{ width: '40rem', height: '30rem' }}/>
         </div>
         <div className="col-4 border border-dark">
         <form onSubmit={handleSubmit}>
@@ -110,6 +118,7 @@ export default function AddUnitPage() {
               className="form-control"
               id="productName"
               placeholder="e.g. Avanza"
+              value={updatedUnit.name}
               onChange={(e) => handleInput('name', e.target.value)}
             />
           </div>
@@ -189,5 +198,5 @@ export default function AddUnitPage() {
         </div>
       </div>
     </>
-  )  
+  )
 }
