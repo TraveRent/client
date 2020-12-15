@@ -49,3 +49,7 @@ body {
 .regbtn {
   font-weight: bold;
 }
+
+.click {
+  cursor: pointer;
+}

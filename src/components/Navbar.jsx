@@ -1,9 +1,22 @@
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 export default function Navbar() {
   const [login, setLogin] = useState(false);
+  const history = useHistory();
+
+  const toLogin = () => {
+    history.push("/login");
+  };
+  const toRegister = () => {
+    history.push("/register");
+  };
+  const logout = () => {
+    localStorage.clear();
+    history.push("/");
+  };
+
   return (
     <>
       <nav className="d-flex justify-content-between pt-4">
@@ -36,16 +49,25 @@ export default function Navbar() {
         <div className="mr-4 mt-1 d-flex justify-content-end">
           {login ? (
             <div>
-              <button className="btn btn-sm nunito py-1 my-0 px-4 text-blue-dark btn-light">
+              <button
+                onClick={() => logout()}
+                className="btn btn-sm nunito py-1 my-0 px-4 text-blue-dark btn-light"
+              >
                 <strong>Logout</strong>
               </button>
             </div>
           ) : (
             <div>
-              <button className="btn text-white py-1 px-5 nunito btn-transparent">
+              <button
+                onClick={() => toLogin()}
+                className="btn text-white py-1 px-5 nunito btn-transparent"
+              >
                 <strong>Login</strong>
               </button>
-              <button className="btn btn-sm nunito py-1 my-0 px-4 text-blue-dark btn-light">
+              <button
+                onClick={() => toRegister()}
+                className="btn btn-sm nunito py-1 my-0 px-4 text-blue-dark btn-light"
+              >
                 <strong>Sign Up</strong>
               </button>
             </div>
