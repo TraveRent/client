@@ -1,7 +1,6 @@
 import axios from '../axios'
 import { setUnits, setError, setLoading } from '../store/actions'
 
-
 export default function fetchUnit(accessToken) {
   return dispatch => {
     axios({
