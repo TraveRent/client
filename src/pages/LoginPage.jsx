@@ -46,13 +46,13 @@ export default function LoginPage() {
           `
         })
       } else {
-        const { data: { accessToken } } = await axios({
+        const { data: { accessToken, id } } = await axios({
           method:'POST',
-          url: '/users/login',
+          url: '/vendors/login',
           data: user
         })
         localStorage.setItem('access_token', accessToken) // * Set access_token in local storage
-        router.push('/') // * Change into HomePage
+        router.push('/dashboard') // * Change into HomePage
       }
     } catch ({ response: { data: { message: errorMessage } } }) {
       // * Error from API Request to server
@@ -66,17 +66,17 @@ export default function LoginPage() {
   return (
     <div className="d-flex justify-content-center">
       <div className="w-50 bg-info rounded p-4">
-        <h3 className="text-center">Login User</h3>
+        <h3 className="text-center">Login</h3>
         <div className="w-75 ml-5 pl-5">
-          <div class="input-group mb-2 mt-4">
-            <div class="input-group-prepend">
-              <div class="input-group-text">
+          <div className="input-group mb-2 mt-4">
+            <div className="input-group-prepend">
+              <div className="input-group-text">
                 <i className="fa fa-user-alt"></i>
               </div>
             </div>
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               id="inlineFormInputGroup"
               placeholder="Email"
               required
@@ -84,15 +84,15 @@ export default function LoginPage() {
               onChange={(e) => handleInput('email', e.target.value)}
             />
           </div>
-          <div class="input-group mb-2 mt-4">
-            <div class="input-group-prepend">
-              <div class="input-group-text">
+          <div className="input-group mb-2 mt-4">
+            <div className="input-group-prepend">
+              <div className="input-group-text">
                 <i className="fa fa-lock"></i>
               </div>
             </div>
             <input
               type="password"
-              class="form-control"
+              className="form-control"
               id="inlineFormInputGroup"
               placeholder="Password"
               required
