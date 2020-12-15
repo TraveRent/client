@@ -8,6 +8,7 @@ import Toast from '../sweetalert2/toast'
 export default function RegisterPage() {
   const router = useHistory()
   const [newUser, setNewUser] = useState({ firstName: '', lastName: '', email: '', password: '', })
+  const [newUserStatus, setStatus] = useState('')
 
   const handleInput = (target, value) => {
     switch(target) {
@@ -22,6 +23,9 @@ export default function RegisterPage() {
         break
       case 'password':
         setNewUser({ ...newUser, password: value })
+        break
+      case 'status':
+        setStatus(value)
         break
       default:
         setNewUser(newUser)
@@ -42,6 +46,8 @@ export default function RegisterPage() {
         errors.push('Password cannot be empty')
       if(newUser.password.length < 6)
         errors.push('Passwords must have at least 6 characters')
+      if(!newUserStatus)
+        errors.push('Please select your type account')
 
       if(errors.length !== 0) {
         // * Error Validation Forms
@@ -55,17 +61,32 @@ export default function RegisterPage() {
           `
         })
       } else {
-        const { data: { email } } = await axios({
-          method: 'POST',
-          url: '/users/register',
-          data: newUser
-        })
-        Toast.fire({
-          title: 'Yay!',
-          icon: 'success',
-          text: `Successfully registered ${email}`
-        })
-        router.push('/login')
+        if(newUserStatus === 'user') {
+          // console.log(newUser, 'ini user')
+          const { data: { email } } = await axios({
+            method: 'POST',
+            url: '/users/register',
+            data: newUser
+          })
+          Toast.fire({
+            title: 'Yay!',
+            icon: 'success',
+            text: `Successfully registered ${email}`
+          })
+          router.push('/login')
+        } else {
+          const { data: { email } } = await axios({
+            method: 'POST',
+            url: '/vendors/register',
+            data: newUser
+          })
+          Toast.fire({
+            title: 'Yay!',
+            icon: 'success',
+            text: `Successfully registered ${email}`
+          })
+          router.push('/login')
+        }
       }
     } catch ({ response: { data: { message: errorMessage } } }) {
       // * Error from API Request to server
@@ -124,36 +145,13 @@ export default function RegisterPage() {
               type="text"
               class="form-control"
               id="inlineFormInputGroup"
-              placeholder="First Name"
+              placeholder="Email"
               required
               value={newUser.email}
               onChange={(e) => handleInput('email', e.target.value)}
             />
           </div>
           <div class="input-group mb-2 mt-4">
-            <input
-              type="text"
-              class="form-control"
-              id="inlineFormInputGroup"
-              placeholder="Last Name"
-              required
-            />
-          </div>
-        </div>
-        <div class="input-group mb-2">
-          <div class="input-group-prepend">
-            <div class="input-group-text">@</div>
-          </div>
-          <input
-            type="text"
-            class="form-control"
-            id="inlineFormInputGroup"
-            placeholder="Email"
-            required
-          />
-        </div>
-        <div className="d-flex justify-content-between">
-          <div class="input-group mb-2">
             <div class="input-group-prepend">
               <div class="input-group-text">
                 <i className="fa fa-lock"></i>
@@ -169,10 +167,22 @@ export default function RegisterPage() {
               onChange={(e) => handleInput('password', e.target.value)}
             />
           </div>
+          <div class="input-group mb-2 mt-4">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                <i className="fa fa-registered"></i>
+              </div>
+            </div>
+            <select name="status" class="form-control" onChange={(e) => handleInput('status', e.target.value)}>
+              <option value="">Register as...</option>
+              <option value="vendor">Vendor</option>
+              <option value="user">User</option>
+            </select>
+          </div>
+        </div>
           <div className="d-flex justify-content-end mt-3">
             <button className="btn btn-primary" onClick={() => handleSubmitButton()}>Register</button>
           </div>
-        </div>
       </div>
     </div>
   );
