@@ -1,5 +1,13 @@
 import { Route, Switch } from "react-router-dom";
-import { HomePage, LoginPage, RegisterPage, SelectUserProfilePage, DashboardVendorPage, AddUnitPage } from "./pages";
+import {
+  HomePage,
+  LoginPage,
+  RegisterPage,
+  SelectUserProfilePage,
+  DashboardVendorPage,
+  AddUnitPage,
+  ResultPage,
+} from "./pages";
 import { Navbar } from "./components";
 
 export default function App() {
@@ -18,6 +26,9 @@ export default function App() {
         </Route>
         <Route path="/register">
           <RegisterPage />
+        </Route>
+        <Route path="/result">
+          <ResultPage />
         </Route>
         <Route path="/dashboard">
           <DashboardVendorPage />
