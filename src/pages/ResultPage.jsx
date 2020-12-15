@@ -116,7 +116,7 @@ export default function ResultPage() {
                         Akbar Rental
                       </i>
                       <small className="p-1 bg-secondary text-white text-center rounded">
-                        Automatic
+                        Automatic 2020
                       </small>
                     </div>
                   </div>
@@ -130,7 +130,7 @@ export default function ResultPage() {
                   </div>
                 </div>
               </div>
-            </div>{" "}
+            </div>
             <div className="card-body px-2 py-2 mx-3">
               <div className="row border rounded shadow">
                 <div className="col-4 p-0">
@@ -152,7 +152,7 @@ export default function ResultPage() {
                         Akbar Rental
                       </i>
                       <small className="p-1 bg-secondary text-white text-center rounded">
-                        Automatic
+                        Automatic 2020
                       </small>
                     </div>
                   </div>
@@ -166,7 +166,7 @@ export default function ResultPage() {
                   </div>
                 </div>
               </div>
-            </div>{" "}
+            </div>
             <div className="card-body px-2 py-2 mx-3">
               <div className="row border rounded shadow">
                 <div className="col-4 p-0">
@@ -188,7 +188,7 @@ export default function ResultPage() {
                         Akbar Rental
                       </i>
                       <small className="p-1 bg-secondary text-white text-center rounded">
-                        Automatic
+                        Automatic 2020
                       </small>
                     </div>
                   </div>
@@ -202,7 +202,7 @@ export default function ResultPage() {
                   </div>
                 </div>
               </div>
-            </div>{" "}
+            </div>
             <div className="card-body px-2 py-2 mx-3">
               <div className="row border rounded shadow">
                 <div className="col-4 p-0">
@@ -224,7 +224,7 @@ export default function ResultPage() {
                         Akbar Rental
                       </i>
                       <small className="p-1 bg-secondary text-white text-center rounded">
-                        Automatic
+                        Automatic 2020
                       </small>
                     </div>
                   </div>
@@ -238,7 +238,7 @@ export default function ResultPage() {
                   </div>
                 </div>
               </div>
-            </div>{" "}
+            </div>
             <div className="card-body px-2 py-2 mx-3">
               <div className="row border rounded shadow">
                 <div className="col-4 p-0">
@@ -260,7 +260,7 @@ export default function ResultPage() {
                         Akbar Rental
                       </i>
                       <small className="p-1 bg-secondary text-white text-center rounded">
-                        Automatic
+                        Automatic 2020
                       </small>
                     </div>
                   </div>
