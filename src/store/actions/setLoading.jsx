@@ -1,3 +1,3 @@
-export default function setLoading() {
-  return { type: 'SET_LOADING', payload: false }
+export default function setLoading( loading = true) {
+  return { type: 'SET_LOADING', payload: loading }
 }
