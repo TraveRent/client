@@ -2,10 +2,9 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import fetchUnit from "../hooks/fetchUnit";
-import { setLoading } from "../store/actions"
-import deleteUnitById from '../hooks/deleteUnit'
-import Swal from 'sweetalert2'
-
+import { setLoading } from "../store/actions";
+import deleteUnitById from "../hooks/deleteUnit";
+import Swal from "sweetalert2";
 
 export default function DashboardVendorPage() {
   const history = useHistory();
@@ -14,20 +13,18 @@ export default function DashboardVendorPage() {
   const loading = useSelector((state) => state.loading);
   const error = useSelector((state) => state.error);
   const accessToken = localStorage.getItem("access_token");
-
   useEffect(() => {
     dispatch(fetchUnit(accessToken));
   }, [dispatch, accessToken]);
 
   const switchPage = (page, unitId) => {
-    console.log(page)
-    if( page === 'addPage')
-      history.push('/unit/add')
-    if( page === 'editPage') {
-      dispatch(setLoading())
-      history.push(`/unit/edit/${unitId}`)
+    console.log(page);
+    if (page === "addPage") history.push("/unit/add");
+    if (page === "editPage") {
+      dispatch(setLoading());
+      history.push(`/unit/edit/${unitId}`);
     }
-  }
+  };
 
   return (
     <>

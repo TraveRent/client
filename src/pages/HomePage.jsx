@@ -1,14 +1,65 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from "react-redux";
 import "../styles/home.css";
-
+import Autosuggest from "react-autosuggest";
+import fetchUnit from "../hooks/fetchUnit";
+import { useHistory } from "react-router-dom";
 export default function HomePage() {
-  const dispatch = useDispatch()
-  const filterUnit = useSelector((state) => state.units)
+  const router = useHistory();
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState([]);
+  const [value, setValue] = useState("");
+  const [suggestion, setSuggestion] = useState([]);
+  const units = useSelector((state) => state.units);
 
+  useEffect(() => {
+    dispatch(fetchUnit());
+  }, []);
+
+  const getSuggestions = (value) => {
+    const inputValue = value.trim().toLowerCase();
+    const inputLength = inputValue.length;
+
+    return inputLength === 0
+      ? []
+      : units.filter(
+          (unit) =>
+            unit.location.toLowerCase().slice(0, inputLength) === inputValue
+        );
+  };
+
+  const getSuggestionValues = (suggestion) => suggestion.location;
+
+  const onSuggestionsFetchRequesteds = ({ value }) => {
+    setSuggestion(getSuggestions(value));
+  };
+  const onSuggestionsClearRequesteds = () => {
+    setSuggestion([]);
+  };
+  const onChanges = (event, { newValue }) => {
+    setValue(newValue);
+  };
+  const inputProps = {
+    placeholder: "e.g Bali",
+    value,
+    onChange: onChanges,
+  };
+  const search = () => {
+    router.push({
+      pathname: "/result",
+      state: {
+        location: value,
+        units: units.filter(
+          (unit) => unit.location.toLowerCase() === value.toLowerCase()
+        ),
+      },
+    });
+  };
+  const renderSuggestion = (suggestion) => (
+    <span className="m-auto p-auto">{suggestion.location}</span>
+  );
   return (
     <div className="">
       <div className="row body px-3 pt-5 pb-5">
@@ -18,7 +69,6 @@ export default function HomePage() {
           </div>
           <div className="russo-one ml-5 p-auto text-white mt-minus">
             Brrm Brrm Brrrm, Choose the vehicle and Hit the road!
-            {JSON.stringify(filterUnit)}
           </div>
         </div>
         <div className="col-5 row m-0 p-0 rounded shadow car">
@@ -50,11 +100,15 @@ export default function HomePage() {
             </svg>
             <div className="col-7 px-0 row my-auto text-white">
               <small className="">Search Location</small>
-              <input
-                className="bg-transparent inputs text-white border-0"
-                type="text"
-                placeholder="Bali"
-              />
+              <Autosuggest
+                className="rounded"
+                suggestions={suggestion}
+                onSuggestionsFetchRequested={onSuggestionsFetchRequesteds}
+                onSuggestionsClearRequested={onSuggestionsClearRequesteds}
+                getSuggestionValue={getSuggestionValues}
+                renderSuggestion={renderSuggestion}
+                inputProps={inputProps}
+              ></Autosuggest>
             </div>
           </div>
           <div className="col-3 text-center mt-2 text-white">
@@ -74,10 +128,7 @@ export default function HomePage() {
             />
           </div>
           <div className="col-3 m-auto text-center">
-            <button
-              className="btn bg-gold px-5"
-              onClick={() => setResult(["a", "b"])}
-            >
+            <button className="btn bg-gold px-5" onClick={() => search()}>
               Search
             </button>
           </div>
