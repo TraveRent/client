@@ -192,7 +192,7 @@ export default function AddUnitPage() {
                   </div>
                 </div>
                 <div class="d-flex mt-3 justify-content-end mr-3">
-                  <div className="btn mx-1 btn-primary">Submit</div>
+                  <div className="btn mx-1 btn-primary" onClick={handleSubmit}>Submit</div>
                   <div className="btn mx-1 btn-danger">Cancel</div>
                 </div>
               </div>

@@ -17,7 +17,7 @@ export default function App() {
       <Navbar />
       <Switch>
         <Route exact path="/">
-          <HomePage />
+          <LoginPage />
         </Route>
         <Route path="/profile">
           <SelectUserProfilePage />
