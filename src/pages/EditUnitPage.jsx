@@ -2,25 +2,24 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useHistory } from 'react-router-dom'
 import fetchUnitById from '../hooks/fetchUnitById'
+import postEditUnit from '../hooks/postEditUnit'
 import { isURL } from 'validator'
 import Swal from 'sweetalert2'
 
 export default function EditUnitPage() {
-  const history = useHistory()
-  const accessToken = localStorage.getItem('access_token')
-  const { id } = useParams()
   const dispatch = useDispatch()
-  const unit = useSelector((state) => state.unit)
-  const loading = useSelector((state) => state.loading)
-  const error = useSelector((state) => state.error)
+  const history = useHistory()
+  const { id } = useParams()
+  const { unit, loading, error } = useSelector(state => state)
   const [updatedUnit, setUpdateUnit] = useState({})
+  const accessToken = localStorage.getItem('access_token')
 
-// ! edit issue
   useEffect(() => {
-    dispatch(fetchUnitById(id))
-    if(!loading)
-    setUpdateUnit({ ...unit })
-  }, [dispatch, id])
+    if(loading)
+      dispatch(fetchUnitById(id))
+    else
+      setUpdateUnit(unit)
+  }, [loading])
 
   const handleInput = (target, value) => {
     switch(target) {
@@ -59,39 +58,34 @@ export default function EditUnitPage() {
     // console.log(newUnit)
     const errors = []
     if(!updatedUnit.name)
-      errors.push('Name cannot be empty')
+      errors.push('Name')
     if(!updatedUnit.brand)
-      errors.push('Brand cannot be empty')
+      errors.push('Brand')
     if(!updatedUnit.type)
-      errors.push('Type cannot be empty')
+      errors.push('Type')
     if(!updatedUnit.year)
-      errors.push('Year cannot be empty')
+      errors.push('Year')
     if(!updatedUnit.category)
-      errors.push('Category cannot be empty')
+      errors.push('Category')
     if(!updatedUnit.imageUrl)
-      errors.push('Image URL cannot be empty')
+      errors.push('Image URL')
     if(!isURL(updatedUnit.imageUrl))
       errors.push('Invalid image url')
     if(!updatedUnit.location)
-      errors.push('Location cannot be empty')
+      errors.push('Location')
     if(!updatedUnit.price)
-      errors.push('Price cannot be empty')
+      errors.push('Price')
 
 
     if(errors.length !== 0) {
       Swal.fire({
         title: 'Oops...',
         icon: 'error',
-        html: `
-        <div class="ml-5 text-left">
-          ${errors.join('<br/>')}
-        </div>
-        `
+        text: `Forms ${errors.join(', ')} cannot be empty`
       })
     } else {
-      // console.log(unit, 'ini masuk')
-      // dispatch(addUnit(newUnit, accessToken))
-      // history.push('/dashboard')
+      dispatch(postEditUnit(updatedUnit, accessToken))
+      history.push('/dashboard')
     }
   }
 
@@ -129,6 +123,7 @@ export default function EditUnitPage() {
               className="form-control"
               id="productName"
               placeholder="e.g. Toyota"
+              value={updatedUnit.brand}
               onChange={(e) => handleInput('brand', e.target.value)}  
             />
           </div>
@@ -139,30 +134,38 @@ export default function EditUnitPage() {
               className="form-control"
               id="productName"
               placeholder="e.g. Automatic"
+              value={updatedUnit.type}
               onChange={(e) => handleInput('type', e.target.value)}  
             />
           </div>
           <div className="form-group">
             <label>Year</label>
             <input
-              type="text"
+              type="number"
               className="form-control"
               id="productName"
               placeholder="e.g. 2019"
+              value={updatedUnit.year}
               onChange={(e) => handleInput('year', e.target.value)}
             />
           </div>
           <div className="form-group">
             <label>Category</label>
-            <input
+            <select class="custom-select" value={updatedUnit.category} onChange={(e) => handleInput('category', e.target.value)}>
+              <option disabled>-- Select Category --</option>
+              <option value="Car">Car</option>
+              <option value="Motorcycle">Motorcycle</option>
+            </select>
+            {/* <input
               type="text"
               className="form-control"
               id="productName"
               placeholder="e.g. Car"
+              value={updatedUnit.category}
               onChange={(e) => handleInput('category', e.target.value)}  
-            />
+            /> */}
           </div>
-          <div className="form-group">
+          {/* <div className="form-group">
             <label>Image Url</label>
             <input
               type="url"
@@ -171,7 +174,7 @@ export default function EditUnitPage() {
               placeholder="e.g. http://arah.in/adidas-neo"
               onChange={(e) => handleInput('imageUrl', e.target.value)}
             />
-          </div>
+          </div> */}
           <div className="form-group">
             <label>Location</label>
             <input
@@ -179,16 +182,18 @@ export default function EditUnitPage() {
               className="form-control"
               id="productName"
               placeholder="e.g. Jakarta"
+              value={updatedUnit.location}
               onChange={(e) => handleInput('location', e.target.value)}
             />
           </div>
           <div className="form-group">
             <label>Price</label>
             <input
-              type="text"
+              type="number"
               className="form-control"
               id="price"
               placeholder="e.g. 450000"
+              value={updatedUnit.price}
               onChange={(e) => handleInput('price', e.target.value)}  
             />
           </div>

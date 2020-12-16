@@ -4,5 +4,6 @@ export { default as setError } from './setError'
 export { default as setLoading } from './setLoading'
 export { default as setNewUnit } from './setNewUnit'
 export { default as setUnit } from './setUnit'
+export { default as setEditedUnit } from './setEditedUnit'
 export { default as deleteUnit } from './deleteUnit'
 

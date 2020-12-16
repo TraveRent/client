@@ -57,29 +57,27 @@ export default function AddUnitPage() {
     event.preventDefault();
     // console.log(newUnit)
     const errors = [];
-    if (!newUnit.name) errors.push("Name cannot be empty");
-    if (!newUnit.brand) errors.push("Brand cannot be empty");
-    if (!newUnit.type) errors.push("Type cannot be empty");
-    if (!newUnit.year) errors.push("Year cannot be empty");
-    if (!newUnit.category) errors.push("Category cannot be empty");
-    if (!newUnit.imageUrl) errors.push("Image URL cannot be empty");
-    if (!isURL(newUnit.imageUrl)) errors.push("Invalid image url");
-    if (!newUnit.location) errors.push("Location cannot be empty");
-    if (!newUnit.price) errors.push("Price cannot be empty");
+    for (const form in newUnit) {
+      console.log(form, '???');
+      console.log(newUnit[form]);
+      if(!newUnit[form])
+        errors.push(`${form[0].toUpperCase()} + ${form.substring(1)}`)
+    }
 
     if (errors.length !== 0) {
       Swal.fire({
-        title: "Oops...",
+        title: "Oopss...",
+        text: `Forms ${errors.join(", ")} cannot be empty!`,
         icon: "error",
-        html: `
-          <div class="ml-5 text-left">
-            ${errors.join("<br/>")}
-          </div>
-          `,
       });
     } else {
-      // console.log(newUnit, 'ini masuk')
-      dispatch(addUnit(newUnit, accessToken));
+      const fd = new FormData()
+      for(const key in newUnit) {
+        if(key === "imageUrl")
+          fd.append('image-unit', newUnit[key][0])
+        fd.append(key, newUnit[key])
+      }
+      dispatch(addUnit(fd, accessToken));
       history.push("/dashboard");
     }
   };
@@ -167,7 +165,7 @@ export default function AddUnitPage() {
                       name="image-unit"
                       formEncType="multipart/form-data"
                       type="file"
-                      onChange={(e) => handleInput("imageUrl", e.target.value)}
+                      onChange={(e) => handleInput("imageUrl", e.target.files)}
                     />
                   </div>
                   <div className="form-group">
