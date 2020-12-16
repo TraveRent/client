@@ -1,13 +1,20 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import { useHistory, use } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import "../styles/home.css";
 
 export default function HomePage() {
+  const history = useHistory()
   const dispatch = useDispatch()
   const filterUnit = useSelector((state) => state.units)
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState([]);
+  const [location, setLocation] = useState("")
+
+  const handleSubmit = () => {
+    history.push('/result')
+  }
 
   return (
     <div className="">
@@ -18,7 +25,6 @@ export default function HomePage() {
           </div>
           <div className="russo-one ml-5 p-auto text-white mt-minus">
             Brrm Brrm Brrrm, Choose the vehicle and Hit the road!
-            {JSON.stringify(filterUnit)}
           </div>
         </div>
         <div className="col-5 row m-0 p-0 rounded shadow car">
@@ -54,6 +60,7 @@ export default function HomePage() {
                 className="bg-transparent inputs text-white border-0"
                 type="text"
                 placeholder="Bali"
+                onChange={(e) => setLocation(e.target.value)}
               />
             </div>
           </div>
@@ -76,7 +83,8 @@ export default function HomePage() {
           <div className="col-3 m-auto text-center">
             <button
               className="btn bg-gold px-5"
-              onClick={() => setResult(["a", "b"])}
+              onClick={handleSubmit}
+              // onClick={() => setResult(["a", "b"])}
             >
               Search
             </button>
