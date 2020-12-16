@@ -10,9 +10,11 @@ export default function addUnit(newUnit, accessToken) {
       data: newUnit
     })
     .then(({ data }) => {
+      console.log(data, 'yay');
       dispatch(setNewUnit(data))
     })
     .catch(err => {
+      console.log(err, 'oops');
       dispatch(setError(err))
     })
     .finally(() => {
