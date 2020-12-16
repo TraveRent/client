@@ -8,7 +8,52 @@
 .bg-card-searchbox {
   background-color: rgba(66, 89, 124, 1);
 }
+.react-autosuggest__input {
+  width: 100px;
+  height: 30px;
+  font-family: Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  background-color: transparent;
+  border: none;
+  color: white;
+  list-style-type: none;
+}
+.react-autosuggest__suggestions-container--open {
+  list-style-type: none;
+  display: block;
+  position: absolute;
+  top: 40px;
+  padding-right: 10px;
+  width: auto;
+  border-radius: 5px;
+  border: none;
+  background-color: rgba(17, 39, 74, 1);
+  font-family: Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  z-index: 2;
+  cursor: pointer;
+}
+.react-autosuggest__suggestion--highlighted {
+  list-style-type: none;
 
+  background-color: #ddd;
+}
+
+.react-autosuggest__container {
+  position: relative;
+  list-style-type: none;
+}
+.react-autosuggest__suggestions-list {
+  margin: 0;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  list-style-type: none;
+}
 nav {
   background-color: #11274a;
 }

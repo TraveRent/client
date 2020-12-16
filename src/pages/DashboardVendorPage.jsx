@@ -1,54 +1,57 @@
-import React, { useEffect } from "react"
-import { useSelector, useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import fetchUnit from '../hooks/fetchUnit'
-import { setLoading } from "../store/actions"
-import deleteUnitById from '../hooks/deleteUnit'
-import { VendorUnit } from '../components'
-import Swal from 'sweetalert2'
-
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import fetchUnit from "../hooks/fetchUnit";
+import { setLoading } from "../store/actions";
+import deleteUnitById from "../hooks/deleteUnit";
+import { VendorUnit } from "../components";
+import Swal from "sweetalert2";
 
 export default function DashboardVendorPage() {
-  const history = useHistory()
-  const dispatch = useDispatch()
-  const { units, loading, error } = useSelector((state) => state)
-  const accessToken = localStorage.getItem('access_token')
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { units, loading, error } = useSelector((state) => state);
+  const accessToken = localStorage.getItem("access_token");
 
   useEffect(() => {
     dispatch(fetchUnit(accessToken));
   }, [dispatch, accessToken]);
 
-  const switchPage = (page, unitId) => {
-    console.log(page)
-    if( page === 'addPage')
-      history.push('/unit/add')
-    if( page === 'editPage') {
-      dispatch(setLoading())
-      history.push(`/unit/edit/${unitId}`)
+  useEffect(() => {
+    if (!localStorage.vendor_access_token) {
+      history.push("/");
     }
-  }
+  }, []);
+  const switchPage = (page, unitId) => {
+    console.log(page);
+    if (page === "addPage") history.push("/unit/add");
+    if (page === "editPage") {
+      dispatch(setLoading());
+      history.push(`/unit/edit/${unitId}`);
+    }
+  };
 
-  const alertDeleteUnitById = id => {
+  const alertDeleteUnitById = (id) => {
     Swal.fire({
-      title: 'Are you sure you want to delete unit?',
-      icon: 'question',
+      title: "Are you sure you want to delete unit?",
+      icon: "question",
       showCancelButton: true,
-      reverseButtons: true
-    })
-      .then(({ isConfirmed }) => {
-        if(isConfirmed) {
-          dispatch(deleteUnitById(id))
-        }
-      })
-  }
+      reverseButtons: true,
+    }).then(({ isConfirmed }) => {
+      if (isConfirmed) {
+        dispatch(deleteUnitById(id));
+      }
+    });
+  };
 
-  if(loading) return (
-    <>
-      <div className="container text-center mt-5">
-        <h1>Loading....</h1>
-      </div>
-    </>
-  )
+  if (loading)
+    return (
+      <>
+        <div className="container text-center mt-5">
+          <h1>Loading....</h1>
+        </div>
+      </>
+    );
 
   return (
     <>
@@ -72,7 +75,14 @@ export default function DashboardVendorPage() {
           </div>
           <div className="col-7">
             <div className="card">
-              {units.map(unit => <VendorUnit unit={unit} key={unit._id} switchPage={switchPage} alertDeleteUnitById={alertDeleteUnitById} /> )}
+              {units.map((unit) => (
+                <VendorUnit
+                  unit={unit}
+                  key={unit._id}
+                  switchPage={switchPage}
+                  alertDeleteUnitById={alertDeleteUnitById}
+                />
+              ))}
             </div>
           </div>
         </div>

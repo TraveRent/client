@@ -3,11 +3,14 @@ import { useHistory, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import validator from "validator";
 import axios from "../axios";
+import { useDispatch } from "react-redux";
+import { setIsLogin } from "../store/actions";
 
 export default function LoginPage() {
+  const dispatch = useDispatch();
   const router = useHistory();
   const [user, setUser] = useState({ email: "", password: "" });
-  const [userStatus, setUserStatus] = useState("")
+  const [userStatus, setUserStatus] = useState("");
 
   const handleInput = (target, value) => {
     switch (target) {
@@ -18,7 +21,7 @@ export default function LoginPage() {
         setUser({ ...user, password: value });
         break;
       case "status":
-        setUserStatus(value)
+        setUserStatus(value);
         break;
       default:
         setUser(user);
@@ -48,7 +51,7 @@ export default function LoginPage() {
           `,
         });
       } else {
-        if( userStatus === "Vendor") {
+        if (userStatus === "Vendor") {
           const {
             data: { accessToken },
           } = await axios({
@@ -56,7 +59,8 @@ export default function LoginPage() {
             url: "/vendors/login",
             data: user,
           });
-          localStorage.setItem("access_token", accessToken); // * Set access_token in local storage
+          localStorage.setItem("vendor_access_token", accessToken); // * Set access_token in local storage
+          dispatch(setIsLogin(true));
           router.push("/dashboard"); // * Change into HomePage
         } else {
           const {
@@ -67,6 +71,7 @@ export default function LoginPage() {
             data: user,
           });
           localStorage.setItem("access_token", accessToken); // * Set access_token in local storage
+          dispatch(setIsLogin(true));
           router.push("/"); // * Change into HomePage
         }
       }

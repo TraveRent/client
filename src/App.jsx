@@ -1,5 +1,5 @@
 import { Route, Switch } from "react-router-dom";
-import { 
+import {
   HomePage,
   LoginPage,
   RegisterPage,
@@ -7,7 +7,7 @@ import {
   DashboardVendorPage,
   AddUnitPage,
   ResultPage,
-  EditUnitPage   
+  EditUnitPage,
 } from "./pages";
 import { Navbar } from "./components";
 

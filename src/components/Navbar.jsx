@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
-import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setIsLogin } from "../store/actions";
 
 export default function Navbar() {
-  const history = useHistory()
-  const [login, setLogin] = useState(false);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const isLogin = useSelector((state) => state.isLogin);
 
   const toLogin = () => {
     history.push("/login");
@@ -14,6 +16,7 @@ export default function Navbar() {
   };
   const logout = () => {
     localStorage.clear();
+    dispatch(setIsLogin(false));
     history.push("/");
   };
 
@@ -34,8 +37,8 @@ export default function Navbar() {
                 fill="white"
               />
               <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M47.9193 7.45752C46.6306 7.67139 45.3607 7.94007 44.127 8.27241C37.2179 10.133 30.1935 13.8783 30.1935 13.8783C30.1935 13.8783 17.9958 15.4362 15.0728 19.2557C14.0547 20.5851 13.6278 22.3314 13.4731 23.9046C13.2569 26.1031 14.6991 28.1104 16.8479 28.5958L17.9758 28.8506C17.9719 28.8258 17.9672 28.8012 17.9625 28.7765C17.9555 28.7399 17.9485 28.7031 17.944 28.6651C17.9067 28.377 17.8881 28.1083 17.8881 27.8501C17.8881 24.2709 20.7931 21.3593 24.3633 21.3593C27.9342 21.3593 30.8393 24.2709 30.8393 27.8501C30.8393 28.0377 30.8268 28.2191 30.8117 28.4026C30.793 28.6235 30.7619 28.8409 30.7212 29.0542L47.9193 29.0892V15.4435L37.0673 16.3018C37.0673 16.3018 37.1764 15.0319 36.619 14.3187L37.1191 12.3155C37.1191 12.3155 41.0243 10.2674 47.9193 9.27331V7.45752Z"
                 fill="white"
               />
@@ -47,7 +50,7 @@ export default function Navbar() {
           </Link>
         </div>
         <div className="mr-4 mt-1 d-flex justify-content-end">
-          {login ? (
+          {isLogin ? (
             <div>
               <button
                 onClick={() => logout()}
