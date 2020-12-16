@@ -4,7 +4,7 @@ export default function ResultPage() {
   const [location, setLocation] = useState("Bali");
   return (
     <div className="body">
-      <div className="pt-5 row" style={{ minHeight: "88.7vh" }}>
+      <div className="pt-5 row pb-5" style={{ minHeight: "88.7vh" }}>
         <div className="col-1"></div>
         <div className="col-3">
           <div className="card shadow">

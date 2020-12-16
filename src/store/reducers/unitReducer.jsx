@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 const initialState = {
   units: [],
   loading: true,
@@ -21,6 +23,16 @@ export default function unitReducer(state = initialState, action) {
   }
   if( action.type === 'SET_UNIT' ) {
     return { ...state, unit: action.payload }
+  }
+  if( action.type === 'EDIT_UNIT' ) {
+    const unitClone = _.cloneDeep(state.units)
+    for(const unit in unitClone) {
+      if(unitClone[unit]._id === action.payload._id) {
+        unitClone[unit] = action.payload
+        break
+      }
+    }
+    return { ...state, units: unitClone }
   }
   return state
 }
