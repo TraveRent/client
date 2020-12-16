@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import fetchUnit from '../hooks/fetchUnit'
 import { setLoading } from "../store/actions"
+import deleteUnitById from '../hooks/deleteUnit'
+import Swal from 'sweetalert2'
 
 
 export default function DashboardVendorPage() {
@@ -23,6 +25,21 @@ export default function DashboardVendorPage() {
       dispatch(setLoading())
       history.push(`/unit/edit/${unitId}`)
     }
+  }
+
+  const alertDeleteUnitById = id => {
+    Swal.fire({
+      title: 'Are you sure you want to delete unit?',
+      icon: 'question',
+      showCancelButton: true,
+      reverseButtons: true
+    })
+      .then(({ isConfirmed }) => {
+        console.log(id, '?????');
+        if(isConfirmed) {
+          dispatch(deleteUnitById(id))
+        }
+      })
   }
 
   if(loading) return (
@@ -95,7 +112,7 @@ export default function DashboardVendorPage() {
                               Edit
                             </i>
                             <i
-                              onClick={() => console.log}
+                              onClick={() => alertDeleteUnitById(unit._id)}
                               className="click fa fa-trash mx-1 mb-2 bg-danger py-1 px-2 text-white rounded"
                             >
                               {" "}

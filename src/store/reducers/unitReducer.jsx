@@ -34,5 +34,9 @@ export default function unitReducer(state = initialState, action) {
     }
     return { ...state, units: unitClone }
   }
+  if( action.type === 'DELETE_UNIT' ) {
+    const newUnits = state.units.filter(unit => unit._id !== action.payload)
+    return { ...state, units: newUnits}
+  }
   return state
 }

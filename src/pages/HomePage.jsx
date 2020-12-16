@@ -1,10 +1,14 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux'
 import "../styles/home.css";
 
 export default function HomePage() {
+  const dispatch = useDispatch()
+  const filterUnit = useSelector((state) => state.units)
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState([]);
+
   return (
     <div className="">
       <div className="row body px-3 pt-5 pb-5">
@@ -14,6 +18,7 @@ export default function HomePage() {
           </div>
           <div className="russo-one ml-5 p-auto text-white mt-minus">
             Brrm Brrm Brrrm, Choose the vehicle and Hit the road!
+            {JSON.stringify(filterUnit)}
           </div>
         </div>
         <div className="col-5 row m-0 p-0 rounded shadow car">
