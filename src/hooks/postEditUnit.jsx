@@ -6,7 +6,7 @@ export default function postEditUnit(editedUnit, accessToken) {
     axios({
       method: 'PUT',
       url: `/units/${editedUnit._id}`,
-      headers: { 'access_token': accessToken },
+      headers: { 'vendor_access_token': accessToken },
       data: editedUnit
     })
       .then(() => dispatch(setEditedUnit(editedUnit)))

@@ -6,7 +6,7 @@ export default function addUnit(newUnit, accessToken) {
     axios({
       url: '/units/add',
       method: 'POST',
-      headers: { 'access_token': accessToken },
+      headers: { 'vendor_access_token': accessToken },
       data: newUnit
     })
     .then(({ data }) => {

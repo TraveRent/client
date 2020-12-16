@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import rpFormat from "../helpers/rpFormat";
+import { useDispatch, useSelector } from 'react-redux'
 import Toast from "../sweetalert2/toast";
+import { setDataOrder } from "../store/actions"
+import fetchOrder from '../hooks/fetchOrder'
 
 export default function ResultPage() {
+  const dispatch = useDispatch()
   const router = useHistory();
   const [location, setLocation] = useState(router.location.state.location);
   const units = router.location.state.units;
+  const { startDate, endDate } = router.location.state.date
+  const [dataOrder, setDataOrderState] = useState({})
+  const orders = useSelector((state) => state.orders)
 
   const toProfilePage = () => {
     if (!localStorage.getItem("access_token")) {
@@ -16,9 +23,14 @@ export default function ResultPage() {
         showConfirmButton: false,
       });
     } else {
+      dispatch(setDataOrder(dataOrder))
       router.push("/profile");
     }
   };
+
+  useEffect(() => {
+    dispatch(fetchOrder())
+  }, [])
 
   return (
     <div className="body">
@@ -27,6 +39,7 @@ export default function ResultPage() {
         <div className="col-3">
           <div className="card shadow">
             <div className="card-title pt-3 text-center">
+              {JSON.stringify(orders)}
               <input
                 type="text"
                 className="border-0 nunito rounded text-center"
@@ -163,11 +176,12 @@ export default function ResultPage() {
                       <div className="mb-auto">
                         <strong>{rpFormat(unit.price)} </strong>
                       </div>
-                      <button
-                        data-toggle="modal"
-                        data-target="#exampleModalLong"
-                        className="btn bg-gold text-white mx-auto px-4 nunito mb-2"
-                      >
+                      <button className="btn bg-gold text-white mx-auto px-4 nunito mb-2" data-toggle="modal" data-target="#exampleModalLong" onClick={() => setDataOrderState({
+                        unitId: unit._id,
+                        vendorId: unit.vendor._id,
+                        startDate,
+                        endDate
+                      })}>
                         Order
                       </button>
                     </div>
@@ -208,55 +222,29 @@ export default function ResultPage() {
             </div>
             <div className="modal-body">
               <p>
-                Cras mattis consectetur purus sit amet fermentum. Cras justo
-                odio, dapibus ac facilisis in, egestas eget quam. Morbi leo
-                risus, porta ac consectetur ac, vestibulum at eros. Praesent
-                commodo cursus magna, vel scelerisque nisl consectetur et.
-                Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
-                auctor. Aenean lacinia bibendum nulla sed consectetur. Praesent
-                commodo cursus magna, vel scelerisque nisl consectetur et. Donec
-                sed odio dui. Donec ullamcorper nulla non metus auctor
-                fringilla. Cras mattis consectetur purus sit amet fermentum.
-                Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-                Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur
-                et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus
-                dolor auctor. Aenean lacinia bibendum nulla sed consectetur.
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur
-                et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor
-                fringilla. Cras mattis consectetur purus sit amet fermentum.
-                Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-                Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur
-                et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus
-                dolor auctor. Aenean lacinia bibendum nulla sed consectetur.
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur
-                et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor
-                fringilla. Cras mattis consectetur purus sit amet fermentum.
-                Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-                Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur
-                et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus
-                dolor auctor. Aenean lacinia bibendum nulla sed consectetur.
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur
-                et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor
-                fringilla. Cras mattis consectetur purus sit amet fermentum.
-                Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-                Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur
-                et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus
-                dolor auctor. Aenean lacinia bibendum nulla sed consectetur.
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur
-                et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor
-                fringilla. Cras mattis consectetur purus sit amet fermentum.
-                Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-                Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur
-                et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus
-                dolor auctor. Aenean lacinia bibendum nulla sed consectetur.
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur
-                et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor
-                fringilla.
+              Bagi penyewa lepas kunci wajib memiliki SIM sesuai dengan mobil yang disewa
+              <hr />
+              Memiliki KTP yang akan disimpan oleh pemiliki sewa selama masa penyewaan
+              <hr/>
+              Ada nya ketentuan denda sewa jika melebihi batas waktu sewa
+              <hr/>
+              Adanya fasilitas pengantaran mobil dan pickup mobil pada daerah-daerah tertentu
+              <hr/>
+              Adanya aturan wilayah pemakaian kendaraan sesuai perjanjian
+              <hr/>
+              Pihak sewa mobil berhak menolak pelanggan sesuai kriteria pelanggan
+              <hr/>
+              Adanya aturan tentang denda asuransi mobil jika terjadi kerusakan ringan atau kerusakan berat
+              <hr/>
+              Tidak diperkenankan untuk digunakan balapan tidak resmi
+              <hr/>
+              Durasi penyewaan dianggap digunakan secara full dan tidak bisa dipotong untuk digunakan di lain waktu
+              <hr/>
+              Jika dengan sopir Harga sewa tidak termasuk dengan harga Bahan Bakar, namun biasanya ada juga paket sewa dengan sopir dan BBM
+              <hr/>
+              Kecelakaan yang disebabkan sopir perusahaan sewa akan ditanggung perusahaan sewa
+              <hr/>
+              Pembatalan sewa biasanya akan dikenakan denda sesuai dengan aturan masing-masing perusahaan sewa
               </p>
             </div>
             <div className="modal-footer">

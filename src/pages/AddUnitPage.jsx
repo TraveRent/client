@@ -6,7 +6,7 @@ import { isURL } from "validator";
 import addUnit from "../hooks/addUnit";
 
 export default function AddUnitPage() {
-  const accessToken = localStorage.getItem("access_token");
+  const accessToken = localStorage.getItem("vendor_access_token");
   const vendorId = localStorage.getItem("id");
   const history = useHistory();
   const dispatch = useDispatch();
