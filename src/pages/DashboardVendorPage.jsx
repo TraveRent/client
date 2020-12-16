@@ -2,6 +2,10 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import fetchUnit from "../hooks/fetchUnit";
+import { setLoading } from "../store/actions"
+import deleteUnitById from '../hooks/deleteUnit'
+import Swal from 'sweetalert2'
+
 
 export default function DashboardVendorPage() {
   const history = useHistory();
@@ -16,9 +20,14 @@ export default function DashboardVendorPage() {
   }, [dispatch, accessToken]);
 
   const switchPage = (page, unitId) => {
-    if (page === "addPage") history.push("/unit/add");
-    if (page === "detailPage") history.push(`/unit/${unitId}`);
-  };
+    console.log(page)
+    if( page === 'addPage')
+      history.push('/unit/add')
+    if( page === 'editPage') {
+      dispatch(setLoading())
+      history.push(`/unit/edit/${unitId}`)
+    }
+  }
 
   return (
     <>

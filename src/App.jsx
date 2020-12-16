@@ -1,5 +1,5 @@
 import { Route, Switch } from "react-router-dom";
-import {
+import { 
   HomePage,
   LoginPage,
   RegisterPage,
@@ -7,6 +7,7 @@ import {
   DashboardVendorPage,
   AddUnitPage,
   ResultPage,
+  EditUnitPage   
 } from "./pages";
 import { Navbar } from "./components";
 
@@ -16,7 +17,7 @@ export default function App() {
       <Navbar />
       <Switch>
         <Route exact path="/">
-          <HomePage />
+          <LoginPage />
         </Route>
         <Route path="/profile">
           <SelectUserProfilePage />
@@ -35,6 +36,9 @@ export default function App() {
         </Route>
         <Route path="/unit/add">
           <AddUnitPage />
+        </Route>
+        <Route path="/unit/edit/:id">
+          <EditUnitPage />
         </Route>
       </Switch>
     </>

@@ -195,7 +195,7 @@ export default function RegisterPage() {
                           name="category"
                           aria-label="Radio button for following text input"
                           value="Vendor"
-                          onClick={(e) => console.log(e.target.value)}
+                          onClick={(e) => handleInput("status", e.target.value)}
                         />
                       </div>
                     </div>
@@ -215,7 +215,7 @@ export default function RegisterPage() {
                           type="radio"
                           value="User"
                           name="category"
-                          onClick={(e) => console.log(e.target.value)}
+                          onClick={(e) => handleInput("status", e.target.value)}
                           aria-label="Radio button for following text input"
                         />
                       </div>
@@ -230,7 +230,7 @@ export default function RegisterPage() {
                   </div>
                 </div>
                 <div class="d-flex justify-content-center">
-                  <button className="btn bg-gold mt-4 px-5 regbtn">
+                  <button className="btn bg-gold mt-4 px-5 regbtn" onClick={handleSubmitButton}>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Register&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   </button>
                 </div>

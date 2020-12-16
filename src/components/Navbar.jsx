@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 export default function Navbar() {
+  const history = useHistory()
   const [login, setLogin] = useState(false);
-  const history = useHistory();
 
   const toLogin = () => {
     history.push("/login");
