@@ -12,7 +12,7 @@ export default function EditUnitPage() {
   const { id } = useParams()
   const { unit, loading, error } = useSelector(state => state)
   const [updatedUnit, setUpdateUnit] = useState({})
-  const accessToken = localStorage.getItem('access_token')
+  const accessToken = localStorage.getItem('vendor_access_token')
 
   useEffect(() => {
     if(loading)

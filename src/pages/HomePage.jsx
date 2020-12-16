@@ -38,7 +38,6 @@ export default function HomePage() {
             unit.location.toLowerCase().slice(0, inputLength) === inputValue
         );
   };
-
   const getSuggestionValues = (suggestion) => suggestion.location;
 
   const onSuggestionsFetchRequesteds = ({ value }) => {
@@ -57,6 +56,7 @@ export default function HomePage() {
   };
   const search = (event) => {
     event.preventDefault();
+    console.log(startDate)
     if (!endDate || !startDate || !value) {
       Toast.fire({
         title: "Please fill up all the fields!",
@@ -72,6 +72,10 @@ export default function HomePage() {
           units: units.filter(
             (unit) => unit.location.toLowerCase() === value.toLowerCase()
           ),
+          date: {
+            startDate: new Date(startDate),
+            endDate: new Date(endDate)
+          }
         },
       });
     }

@@ -2,12 +2,12 @@ import axios from '../axios'
 import { setUnit, setError, setLoading } from '../store/actions'
 
 export default function fetchUnitById(id) {
-  const accessToken = localStorage.getItem('access_token')
+  const accessToken = localStorage.getItem('vendor_access_token')
   return dispatch => {
     axios({
       url: `/units/${id}`,
       method: 'GET',
-      headers: { 'access_token': accessToken }
+      headers: { 'vendor_access_token': accessToken }
     })
     .then(({ data }) => {
       dispatch(setUnit(data))
