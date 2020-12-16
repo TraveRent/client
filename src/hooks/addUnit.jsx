@@ -6,13 +6,15 @@ export default function addUnit(newUnit, accessToken) {
     axios({
       url: '/units/add',
       method: 'POST',
-      headers: { 'access_token': accessToken},
+      headers: { 'access_token': accessToken },
       data: newUnit
     })
     .then(({ data }) => {
+      console.log(data, 'yay');
       dispatch(setNewUnit(data))
     })
     .catch(err => {
+      console.log(err, 'oops');
       dispatch(setError(err))
     })
     .finally(() => {

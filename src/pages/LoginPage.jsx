@@ -3,10 +3,14 @@ import { useHistory, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import validator from "validator";
 import axios from "../axios";
+import { useDispatch } from "react-redux";
+import { setIsLogin } from "../store/actions";
 
 export default function LoginPage() {
+  const dispatch = useDispatch();
   const router = useHistory();
   const [user, setUser] = useState({ email: "", password: "" });
+  const [userStatus, setUserStatus] = useState("");
 
   const handleInput = (target, value) => {
     switch (target) {
@@ -15,6 +19,9 @@ export default function LoginPage() {
         break;
       case "password":
         setUser({ ...user, password: value });
+        break;
+      case "status":
+        setUserStatus(value);
         break;
       default:
         setUser(user);
@@ -44,15 +51,29 @@ export default function LoginPage() {
           `,
         });
       } else {
-        const {
-          data: { accessToken, id },
-        } = await axios({
-          method: "POST",
-          url: "/vendors/login",
-          data: user,
-        });
-        localStorage.setItem("access_token", accessToken); // * Set access_token in local storage
-        router.push("/dashboard"); // * Change into HomePage
+        if (userStatus === "Vendor") {
+          const {
+            data: { accessToken },
+          } = await axios({
+            method: "POST",
+            url: "/vendors/login",
+            data: user,
+          });
+          localStorage.setItem("vendor_access_token", accessToken); // * Set access_token in local storage
+          dispatch(setIsLogin(true));
+          router.push("/dashboard"); // * Change into HomePage
+        } else {
+          const {
+            data: { accessToken },
+          } = await axios({
+            method: "POST",
+            url: "/users/login",
+            data: user,
+          });
+          localStorage.setItem("access_token", accessToken); // * Set access_token in local storage
+          dispatch(setIsLogin(true));
+          router.push("/"); // * Change into HomePage
+        }
       }
     } catch ({
       response: {
@@ -124,6 +145,7 @@ export default function LoginPage() {
                           name="category"
                           aria-label="Radio button for following text input"
                           value="Vendor"
+                          onClick={(e) => handleInput("status", e.target.value)}
                         />
                       </div>
                     </div>
@@ -144,6 +166,7 @@ export default function LoginPage() {
                           value="User"
                           name="category"
                           aria-label="Radio button for following text input"
+                          onClick={(e) => handleInput("status", e.target.value)}
                         />
                       </div>
                     </div>
