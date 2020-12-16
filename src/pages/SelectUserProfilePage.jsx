@@ -65,7 +65,6 @@ export default function SelectUserProfilePage() {
           },
           data: fd,
         });
-
         console.log(data); // * Result
       }
     } catch ({

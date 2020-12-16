@@ -1,7 +1,23 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom"
+import Toast from '../sweetalert2/toast'
 
 export default function ResultPage() {
+  const history = useHistory()
   const [location, setLocation] = useState("Bali");
+
+  const toProfilePage = () => {
+    if(!localStorage.getItem('access_token')) {
+      Toast.fire({
+        title: "Please login first",
+        icon: "error",
+        showConfirmButton: false
+      })
+    } else {
+      history.push('/profile')
+    }
+  }
+  
   return (
     <div className="body">
       <div className="pt-5 row" style={{ minHeight: "88.7vh" }}>
@@ -19,23 +35,23 @@ export default function ResultPage() {
             <div className="card-body m-0">
               <strong>Type</strong>
               <div className="border pl-1 mt-2 shadow">
-                <div class="custom-control custom-checkbox">
+                <div className="custom-control custom-checkbox">
                   <input
                     type="checkbox"
-                    class="custom-control-input"
+                    className="custom-control-input"
                     id="customCheck1"
                   />
-                  <label class="custom-control-label" for="customCheck1">
+                  <label className="custom-control-label" htmlFor="customCheck1">
                     Automatic
                   </label>
                 </div>
-                <div class="custom-control custom-checkbox">
+                <div className="custom-control custom-checkbox">
                   <input
                     type="checkbox"
-                    class="custom-control-input"
+                    className="custom-control-input"
                     id="customCheck2"
                   />
-                  <label class="custom-control-label" for="customCheck2">
+                  <label className="custom-control-label" htmlFor="customCheck2">
                     Manual
                   </label>
                 </div>
@@ -43,23 +59,23 @@ export default function ResultPage() {
               <div className="mt-3">
                 <strong>Category</strong>
                 <div className="border pl-1 mt-2 shadow">
-                  <div class="custom-control custom-checkbox">
+                  <div className="custom-control custom-checkbox">
                     <input
                       type="checkbox"
-                      class="custom-control-input"
-                      id="customCheck1"
+                      className="custom-control-input"
+                      id="customCheck3"
                     />
-                    <label class="custom-control-label" for="customCheck1">
+                    <label className="custom-control-label" htmlFor="customCheck3">
                       Car
                     </label>
                   </div>
-                  <div class="custom-control custom-checkbox">
+                  <div className="custom-control custom-checkbox">
                     <input
                       type="checkbox"
-                      class="custom-control-input"
-                      id="customCheck2"
+                      className="custom-control-input"
+                      id="customCheck4"
                     />
-                    <label class="custom-control-label" for="customCheck2">
+                    <label className="custom-control-label" htmlFor="customCheck4">
                       Motorcycle
                     </label>
                   </div>
@@ -68,23 +84,23 @@ export default function ResultPage() {
               <div className="mt-3">
                 <strong>Brand</strong>
                 <div className="border pl-1 mt-2 mb-4 shadow">
-                  <div class="custom-control custom-checkbox">
+                  <div className="custom-control custom-checkbox">
                     <input
                       type="checkbox"
-                      class="custom-control-input"
-                      id="customCheck1"
+                      className="custom-control-input"
+                      id="customCheck5"
                     />
-                    <label class="custom-control-label" for="customCheck1">
+                    <label className="custom-control-label" htmlFor="customCheck5">
                       Suzuki
                     </label>
                   </div>
-                  <div class="custom-control custom-checkbox">
+                  <div className="custom-control custom-checkbox">
                     <input
                       type="checkbox"
-                      class="custom-control-input"
-                      id="customCheck2"
+                      className="custom-control-input"
+                      id="customCheck6"
                     />
-                    <label class="custom-control-label" for="customCheck2">
+                    <label className="custom-control-label" htmlFor="customCheck6">
                       Honda
                     </label>
                   </div>
@@ -124,7 +140,7 @@ export default function ResultPage() {
                     <div className="mb-auto">
                       <strong>Rp. 123.456 </strong>
                     </div>
-                    <button className="btn bg-gold text-white mx-auto px-4 nunito mb-2">
+                    <button className="btn bg-gold text-white mx-auto px-4 nunito mb-2" data-toggle="modal" data-target="#exampleModalLong">
                       Order
                     </button>
                   </div>
@@ -160,7 +176,7 @@ export default function ResultPage() {
                     <div className="mb-auto">
                       <strong>Rp. 123.456 </strong>
                     </div>
-                    <button className="btn bg-gold text-white mx-auto px-4 nunito mb-2">
+                    <button className="btn bg-gold text-white mx-auto px-4 nunito mb-2" data-toggle="modal" data-target="#exampleModalLong">
                       Order
                     </button>
                   </div>
@@ -196,7 +212,7 @@ export default function ResultPage() {
                     <div className="mb-auto">
                       <strong>Rp. 123.456 </strong>
                     </div>
-                    <button className="btn bg-gold text-white mx-auto px-4 nunito mb-2">
+                    <button className="btn bg-gold text-white mx-auto px-4 nunito mb-2" data-toggle="modal" data-target="#exampleModalLong">
                       Order
                     </button>
                   </div>
@@ -232,7 +248,7 @@ export default function ResultPage() {
                     <div className="mb-auto">
                       <strong>Rp. 123.456 </strong>
                     </div>
-                    <button className="btn bg-gold text-white mx-auto px-4 nunito mb-2">
+                    <button className="btn bg-gold text-white mx-auto px-4 nunito mb-2" data-toggle="modal" data-target="#exampleModalLong">
                       Order
                     </button>
                   </div>
@@ -268,12 +284,69 @@ export default function ResultPage() {
                     <div className="mb-auto">
                       <strong>Rp. 123.456 </strong>
                     </div>
-                    <button className="btn bg-gold text-white mx-auto px-4 nunito mb-2">
+                    <button className="btn bg-gold text-white mx-auto px-4 nunito mb-2" data-toggle="modal" data-target="#exampleModalLong">
                       Order
                     </button>
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* <!-- Modal --> */}
+      <div className="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-scrollable" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title text-center" id="exampleModalLongTitle">Syarat dan Ketentuan</h5>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <p>
+                Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+
+                Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+
+                Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
+
+                Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+
+                Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+
+                Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
+
+                Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+
+                Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+
+                Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
+
+                Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+
+                Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+
+                Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
+
+                Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+
+                Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+
+                Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
+
+                Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
+
+                Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
+
+                Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
+              </p>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={toProfilePage}>Next</button>
             </div>
           </div>
         </div>
