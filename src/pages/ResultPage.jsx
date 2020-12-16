@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import rpFormat from "../helpers/rpFormat";
 import Toast from "../sweetalert2/toast";
 
 export default function ResultPage() {
@@ -158,11 +159,15 @@ export default function ResultPage() {
                         </small>
                       </div>
                     </div>
-                    <div class="d-flex align-items-start flex-column mt-3 mr-2">
+                    <div className="d-flex align-items-start flex-column mt-3 mr-2">
                       <div className="mb-auto">
-                        <strong>Rp. {unit.price} </strong>
+                        <strong>{rpFormat(unit.price)} </strong>
                       </div>
-                      <button className="btn bg-gold text-white mx-auto px-4 nunito mb-2">
+                      <button
+                        data-toggle="modal"
+                        data-target="#exampleModalLong"
+                        className="btn bg-gold text-white mx-auto px-4 nunito mb-2"
+                      >
                         Order
                       </button>
                     </div>
