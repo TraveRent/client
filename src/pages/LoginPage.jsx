@@ -161,7 +161,7 @@ export default function LoginPage() {
                     className="btn bg-gold mt-4 px-5 regbtn"
                     onClick={() => handleSubmitButton()}
                   >
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Register&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Login&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   </button>
                 </div>
               </div>
