@@ -7,3 +7,6 @@ export { default as setUnit } from "./setUnit";
 export { default as setEditedUnit } from "./setEditedUnit";
 export { default as deleteUnit } from "./deleteUnit";
 export { default as setIsLogin } from "./setIsLogin";
+export { default as setDataOrder } from "./setDataOrder"
+export { default as setNewOrder } from "./setNewOrder"
+export { default as setOrders } from "./setOrders"
