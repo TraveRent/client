@@ -18,7 +18,14 @@ export default function HomePage() {
 
   useEffect(() => {
     dispatch(fetchUnit());
+    // const a = units.reduce(
+    //   (unique, item) =>
+    //     unique.location !== item.location ? unique : [...unique, item],
+    //   []
+    // );
   }, []);
+
+  console.log(suggestion);
 
   const getSuggestions = (value) => {
     const inputValue = value.trim().toLowerCase();

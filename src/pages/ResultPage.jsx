@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import rpFormat from "../helpers/rpFormat";
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
 import Toast from "../sweetalert2/toast";
-import { setDataOrder } from "../store/actions"
-import fetchOrder from '../hooks/fetchOrder'
+import _ from "lodash";
+import { setDataOrder } from "../store/actions";
+import fetchOrder from "../hooks/fetchOrder";
 
 export default function ResultPage() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const router = useHistory();
   const [location, setLocation] = useState(router.location.state.location);
+  const [type, setType] = useState({ automatic: false, manual: false });
+  const [category, setCategory] = useState({ car: false, motorcycle: false });
+  const [filters, setFilters] = useState([]);
+  const [brands, setBrands] = useState([]);
   const units = router.location.state.units;
-  const { startDate, endDate } = router.location.state.date
-  const [dataOrder, setDataOrderState] = useState({})
-  const orders = useSelector((state) => state.orders)
+  const [filtered, setFiltered] = useState([]);
+  const { startDate, endDate } = router.location.state.date;
+  const [dataOrder, setDataOrderState] = useState({});
+  const orders = useSelector((state) => state.orders);
 
   const toProfilePage = () => {
     if (!localStorage.getItem("access_token")) {
@@ -23,14 +29,105 @@ export default function ResultPage() {
         showConfirmButton: false,
       });
     } else {
-      dispatch(setDataOrder(dataOrder))
+      dispatch(setDataOrder(dataOrder));
       router.push("/profile");
     }
   };
 
   useEffect(() => {
-    dispatch(fetchOrder())
-  }, [])
+    dispatch(fetchOrder());
+    if (!router.location.state.location) {
+      router.push("/");
+    }
+  }, []);
+
+  useEffect(() => {
+    let result = _.cloneDeep(filtered);
+    if (filters.length !== 0) {
+      filters.forEach((el) => {
+        if (el === "Automatic" || el === "Manual") {
+          console.log("masuk");
+          if (result.length !== 0) {
+            console.log("if");
+            result = result.filter((unit) => unit.type === el);
+          } else {
+            console.log("else");
+            result = units.filter((unit) => unit.type === el);
+          }
+        }
+        if (el === "Motorcycle" || el === "Car") {
+          if (result.length !== 0) {
+            result = result.filter((unit) => unit.category === el);
+          } else {
+            result = units.filter((unit) => unit.category === el);
+          }
+        }
+      });
+      setFiltered(result);
+    } else {
+      setFiltered([]);
+    }
+  }, [type, category]);
+
+  const handleType = (params) => {
+    if (params === "Automatic") {
+      setType({ ...type, automatic: !type.automatic });
+      let arrFilter = filters;
+      if (type.automatic) {
+        arrFilter = arrFilter.filter((el) => el !== params);
+        setFilters(arrFilter);
+      } else {
+        arrFilter.push(params);
+        setFilters(arrFilter);
+      }
+    } else {
+      setType({ ...type, manual: !type.manual });
+      let arrFilter = filters;
+      if (type.manual) {
+        arrFilter = arrFilter.filter((el) => el !== params);
+        setFilters(arrFilter);
+      } else {
+        arrFilter.push(params);
+        setFilters(arrFilter);
+      }
+    }
+  };
+
+  const handleCategory = (params) => {
+    if (params === "Car") {
+      setCategory({ ...category, car: !category.car });
+      let arrFilter = filters;
+      if (category.car) {
+        arrFilter = arrFilter.filter((el) => el !== params);
+        setFilters(arrFilter);
+      } else {
+        arrFilter.push(params);
+        setFilters(arrFilter);
+      }
+    } else {
+      setCategory({ ...category, motorcycle: !category.motorcycle });
+      let arrFilter = filters;
+      if (category.motorcycle) {
+        arrFilter = arrFilter.filter((el) => el !== params);
+        setFilters(arrFilter);
+      } else {
+        arrFilter.push(params);
+        setFilters(arrFilter);
+      }
+    }
+  };
+
+  const handleBrand = (obj, params) => {
+    if (brands.length === 0) {
+      setBrands([{ [Object.keys(obj)]: !obj[params] }]);
+    } else {
+      let brand = _.cloneDeep(brands);
+      for (const key in brand) {
+        brand[key][params] = !brand[key][params];
+        setBrands(brand);
+      }
+    }
+  };
 
   return (
     <div className="body">
@@ -39,21 +136,21 @@ export default function ResultPage() {
         <div className="col-3">
           <div className="card shadow">
             <div className="card-title pt-3 text-center">
-              {JSON.stringify(orders)}
-              <input
-                type="text"
-                className="border-0 nunito rounded text-center"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-              />
+              <h1>
+                <strong>{location}</strong>
+              </h1>
             </div>
-            <div className="card-body m-0">
+            <div className="text-center pt-2 m-0">
+              <h4 className="m-0">Filter</h4>
+            </div>
+            <div className="card-body m-0 pt-0">
               <strong>Type</strong>
               <div className="border pl-1 mt-2 shadow">
                 <div className="custom-control custom-checkbox">
                   <input
                     type="checkbox"
                     className="custom-control-input"
+                    onChange={() => handleType("Automatic")}
                     id="customCheck1"
                   />
                   <label
@@ -68,6 +165,7 @@ export default function ResultPage() {
                     type="checkbox"
                     className="custom-control-input"
                     id="customCheck2"
+                    onChange={() => handleType("Manual")}
                   />
                   <label
                     className="custom-control-label"
@@ -85,6 +183,7 @@ export default function ResultPage() {
                       type="checkbox"
                       className="custom-control-input"
                       id="customCheck3"
+                      onChange={() => handleCategory("Car")}
                     />
                     <label
                       className="custom-control-label"
@@ -98,6 +197,7 @@ export default function ResultPage() {
                       type="checkbox"
                       className="custom-control-input"
                       id="customCheck4"
+                      onChange={() => handleCategory("Motorcycle")}
                     />
                     <label
                       className="custom-control-label"
@@ -108,33 +208,63 @@ export default function ResultPage() {
                   </div>
                 </div>
               </div>
+            </div>
+            <div className="text-center pt-2 m-0">
+              <h4 className="m-0">Sort by</h4>
+            </div>
+            <div className="card-body m-0 pt-0">
+              <strong>Price</strong>
+              <div className="border pl-1 mt-2 shadow">
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="exampleRadios1"
+                    id="exampleRadios3"
+                    value="cheapest"
+                  />
+                  <label className="form-check-label" for="exampleRadios3">
+                    Cheapest
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="exampleRadios1"
+                    id="exampleRadios4"
+                    value="expensive"
+                  />
+                  <label className="form-check-label" for="exampleRadios4">
+                    Expensive
+                  </label>
+                </div>
+              </div>
               <div className="mt-3">
-                <strong>Brand</strong>
-                <div className="border pl-1 mt-2 mb-4 shadow">
-                  <div className="custom-control custom-checkbox">
+                <strong>Year</strong>
+                <div className="border pl-1 mt-2 shadow">
+                  <div className="form-check">
                     <input
-                      type="checkbox"
-                      className="custom-control-input"
-                      id="customCheck5"
+                      className="form-check-input"
+                      type="radio"
+                      name="exampleRadios"
+                      id="exampleRadios1"
+                      value="new"
                     />
-                    <label
-                      className="custom-control-label"
-                      htmlFor="customCheck5"
-                    >
-                      Suzuki
+                    <label className="form-check-label" for="exampleRadios1">
+                      Brand-new
                     </label>
                   </div>
-                  <div className="custom-control custom-checkbox">
+                  <div className="form-check">
                     <input
-                      type="checkbox"
-                      className="custom-control-input"
-                      id="customCheck6"
+                      className="form-check-input"
+                      type="radio"
+                      name="exampleRadios"
+                      id="exampleRadios2"
+                      value="late"
                     />
-                    <label
-                      className="custom-control-label"
-                      htmlFor="customCheck6"
-                    >
-                      Honda
+                    <label className="form-check-label" for="exampleRadios2">
+                      Latest
                     </label>
                   </div>
                 </div>
@@ -144,51 +274,95 @@ export default function ResultPage() {
         </div>
         <div className="col-7">
           <div className="card">
-            {units.map((unit) => (
-              <div className="card-body px-2 py-2 mx-3">
-                <div className="row border rounded shadow">
-                  <div className="col-4 p-0">
-                    <img
-                      className="img-fluid rounded"
-                      src={unit.imageUrl}
-                      alt=""
-                    />
-                  </div>
-                  <div className="col-8 nunito d-flex justify-content-between">
-                    <div className="">
-                      <strong style={{ fontSize: "25px" }}>
-                        {unit.brand + " " + unit.name}
-                      </strong>
-                      <br />
-                      <div className="ml-auto d-flex align-items-start flex-column">
-                        <i
-                          className="mb-1 fa fa-key"
-                          style={{ fontSize: "15px" }}
-                        >
-                          {unit.vendor.email}
-                        </i>
-                        <small className="p-1 bg-secondary text-white text-center rounded">
-                          {unit.type + " " + unit.year}
-                        </small>
+            {filtered.length > 0
+              ? filtered.map((unit) => (
+                  <div key={filtered._id} className="card-body px-2 py-2 mx-3">
+                    <div className="row border rounded shadow">
+                      <div className="col-4 p-0">
+                        <img
+                          className="img-fluid rounded"
+                          src={unit.imageUrl}
+                          alt={unit.name}
+                        />
+                      </div>
+                      <div className="col-8 nunito d-flex justify-content-between">
+                        <div className="">
+                          <strong style={{ fontSize: "25px" }}>
+                            {unit.brand + " " + unit.name}
+                          </strong>
+                          <br />
+                          <div className="ml-auto d-flex align-items-start flex-column">
+                            <i
+                              className="mb-1 fa fa-key"
+                              style={{ fontSize: "15px" }}
+                            >
+                              {unit.vendor.email}
+                            </i>
+                            <small className="p-1 bg-secondary text-white text-center rounded">
+                              {unit.type + " " + unit.year}
+                            </small>
+                          </div>
+                        </div>
+                        <div className="d-flex align-items-start flex-column mt-3 mr-2">
+                          <div className="mb-auto">
+                            <strong>{rpFormat(unit.price)} </strong>
+                          </div>
+                          <button
+                            data-toggle="modal"
+                            data-target="#exampleModalLong"
+                            className="btn bg-gold text-white mx-auto px-4 nunito mb-2"
+                          >
+                            Order
+                          </button>
+                        </div>
                       </div>
                     </div>
-                    <div className="d-flex align-items-start flex-column mt-3 mr-2">
-                      <div className="mb-auto">
-                        <strong>{rpFormat(unit.price)} </strong>
+                  </div>
+                ))
+              : units.map((unit) => (
+                  <div key={unit._id} className="card-body px-2 py-2 mx-3">
+                    <div className="row border rounded shadow">
+                      <div className="col-4 p-0">
+                        <img
+                          className="img-fluid rounded"
+                          src={unit.imageUrl}
+                          alt={unit.name}
+                        />
                       </div>
-                      <button className="btn bg-gold text-white mx-auto px-4 nunito mb-2" data-toggle="modal" data-target="#exampleModalLong" onClick={() => setDataOrderState({
-                        unitId: unit._id,
-                        vendorId: unit.vendor._id,
-                        startDate,
-                        endDate
-                      })}>
-                        Order
-                      </button>
+                      <div className="col-8 nunito d-flex justify-content-between">
+                        <div className="">
+                          <strong style={{ fontSize: "25px" }}>
+                            {unit.brand + " " + unit.name}
+                          </strong>
+                          <br />
+                          <div className="ml-auto d-flex align-items-start flex-column">
+                            <i
+                              className="mb-1 fa fa-key"
+                              style={{ fontSize: "15px" }}
+                            >
+                              {unit.vendor.email}
+                            </i>
+                            <small className="p-1 bg-secondary text-white text-center rounded">
+                              {unit.type + " " + unit.year}
+                            </small>
+                          </div>
+                        </div>
+                        <div className="d-flex align-items-start flex-column mt-3 mr-2">
+                          <div className="mb-auto">
+                            <strong>{rpFormat(unit.price)} </strong>
+                          </div>
+                          <button
+                            data-toggle="modal"
+                            data-target="#exampleModalLong"
+                            className="btn bg-gold text-white mx-auto px-4 nunito mb-2"
+                          >
+                            Order
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            ))}
+                ))}
           </div>
         </div>
       </div>
@@ -222,29 +396,38 @@ export default function ResultPage() {
             </div>
             <div className="modal-body">
               <p>
-              Bagi penyewa lepas kunci wajib memiliki SIM sesuai dengan mobil yang disewa
-              <hr />
-              Memiliki KTP yang akan disimpan oleh pemiliki sewa selama masa penyewaan
-              <hr/>
-              Ada nya ketentuan denda sewa jika melebihi batas waktu sewa
-              <hr/>
-              Adanya fasilitas pengantaran mobil dan pickup mobil pada daerah-daerah tertentu
-              <hr/>
-              Adanya aturan wilayah pemakaian kendaraan sesuai perjanjian
-              <hr/>
-              Pihak sewa mobil berhak menolak pelanggan sesuai kriteria pelanggan
-              <hr/>
-              Adanya aturan tentang denda asuransi mobil jika terjadi kerusakan ringan atau kerusakan berat
-              <hr/>
-              Tidak diperkenankan untuk digunakan balapan tidak resmi
-              <hr/>
-              Durasi penyewaan dianggap digunakan secara full dan tidak bisa dipotong untuk digunakan di lain waktu
-              <hr/>
-              Jika dengan sopir Harga sewa tidak termasuk dengan harga Bahan Bakar, namun biasanya ada juga paket sewa dengan sopir dan BBM
-              <hr/>
-              Kecelakaan yang disebabkan sopir perusahaan sewa akan ditanggung perusahaan sewa
-              <hr/>
-              Pembatalan sewa biasanya akan dikenakan denda sesuai dengan aturan masing-masing perusahaan sewa
+                Bagi penyewa lepas kunci wajib memiliki SIM sesuai dengan mobil
+                yang disewa
+                <hr />
+                Memiliki KTP yang akan disimpan oleh pemiliki sewa selama masa
+                penyewaan
+                <hr />
+                Ada nya ketentuan denda sewa jika melebihi batas waktu sewa
+                <hr />
+                Adanya fasilitas pengantaran mobil dan pickup mobil pada
+                daerah-daerah tertentu
+                <hr />
+                Adanya aturan wilayah pemakaian kendaraan sesuai perjanjian
+                <hr />
+                Pihak sewa mobil berhak menolak pelanggan sesuai kriteria
+                pelanggan
+                <hr />
+                Adanya aturan tentang denda asuransi mobil jika terjadi
+                kerusakan ringan atau kerusakan berat
+                <hr />
+                Tidak diperkenankan untuk digunakan balapan tidak resmi
+                <hr />
+                Durasi penyewaan dianggap digunakan secara full dan tidak bisa
+                dipotong untuk digunakan di lain waktu
+                <hr />
+                Jika dengan sopir Harga sewa tidak termasuk dengan harga Bahan
+                Bakar, namun biasanya ada juga paket sewa dengan sopir dan BBM
+                <hr />
+                Kecelakaan yang disebabkan sopir perusahaan sewa akan ditanggung
+                perusahaan sewa
+                <hr />
+                Pembatalan sewa biasanya akan dikenakan denda sesuai dengan
+                aturan masing-masing perusahaan sewa
               </p>
             </div>
             <div className="modal-footer">
