@@ -55,13 +55,10 @@ export default function AddUnitPage() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // console.log(newUnit)
     const errors = [];
     for (const form in newUnit) {
-      console.log(form, '???');
-      console.log(newUnit[form]);
-      if(!newUnit[form])
-        errors.push(`${form[0].toUpperCase()} + ${form.substring(1)}`)
+      if (!newUnit[form])
+        errors.push(`${form[0].toUpperCase()} + ${form.substring(1)}`);
     }
 
     if (errors.length !== 0) {
@@ -71,11 +68,10 @@ export default function AddUnitPage() {
         icon: "error",
       });
     } else {
-      const fd = new FormData()
-      for(const key in newUnit) {
-        if(key === "imageUrl")
-          fd.append('image-unit', newUnit[key][0])
-        fd.append(key, newUnit[key])
+      const fd = new FormData();
+      for (const key in newUnit) {
+        if (key === "imageUrl") fd.append("image-unit", newUnit[key][0]);
+        fd.append(key, newUnit[key]);
       }
       dispatch(addUnit(fd, accessToken));
       history.push("/dashboard");
@@ -190,7 +186,9 @@ export default function AddUnitPage() {
                   </div>
                 </div>
                 <div class="d-flex mt-3 justify-content-end mr-3">
-                  <div className="btn mx-1 btn-primary" onClick={handleSubmit}>Submit</div>
+                  <div className="btn mx-1 btn-primary" onClick={handleSubmit}>
+                    Submit
+                  </div>
                   <div className="btn mx-1 btn-danger">Cancel</div>
                 </div>
               </div>

@@ -29,7 +29,7 @@ export default function ResultPage() {
         showConfirmButton: false,
       });
     } else {
-      dispatch(setDataOrder(dataOrder));
+      dispatch(setDataOrder({ ...dataOrder, startDate, endDate }));
       router.push("/profile");
     }
   };
@@ -46,12 +46,9 @@ export default function ResultPage() {
     if (filters.length !== 0) {
       filters.forEach((el) => {
         if (el === "Automatic" || el === "Manual") {
-          console.log("masuk");
           if (result.length !== 0) {
-            console.log("if");
             result = result.filter((unit) => unit.type === el);
           } else {
-            console.log("else");
             result = units.filter((unit) => unit.type === el);
           }
         }
@@ -294,6 +291,13 @@ export default function ResultPage() {
                             data-toggle="modal"
                             data-target="#exampleModalLong"
                             className="btn bg-gold text-white mx-auto px-4 nunito mb-2"
+                            onClick={() =>
+                              setDataOrderState({
+                                unitId: unit._id,
+                                vendorId: unit.vendor._id,
+                                unit,
+                              })
+                            }
                           >
                             Order
                           </button>
@@ -310,7 +314,7 @@ export default function ResultPage() {
       <div
         className="modal fade"
         id="exampleModalLong"
-        tabindex="-1"
+        tabIndex="-1"
         role="dialog"
         aria-labelledby="exampleModalLongTitle"
         aria-hidden="true"
@@ -334,7 +338,7 @@ export default function ResultPage() {
               </button>
             </div>
             <div className="modal-body">
-              <p>
+              <div>
                 Bagi penyewa lepas kunci wajib memiliki SIM sesuai dengan mobil
                 yang disewa
                 <hr />
@@ -367,7 +371,7 @@ export default function ResultPage() {
                 <hr />
                 Pembatalan sewa biasanya akan dikenakan denda sesuai dengan
                 aturan masing-masing perusahaan sewa
-              </p>
+              </div>
             </div>
             <div className="modal-footer">
               <button

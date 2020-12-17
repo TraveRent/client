@@ -53,7 +53,6 @@ export default function EditUnitPage() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // console.log(newUnit)
     const errors = [];
     if (!updatedUnit.name) errors.push("Name");
     if (!updatedUnit.brand) errors.push("Brand");

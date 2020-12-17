@@ -31,14 +31,14 @@ export default function App() {
         <Route path="/result">
           <ResultPage />
         </Route>
-        <Route path="/dashboard">
-          <DashboardVendorPage />
+        <Route path="/dashboard/unit/edit/:id">
+          <EditUnitPage />
         </Route>
-        <Route path="/unit/add">
+        <Route path="/dashboard/unit/add">
           <AddUnitPage />
         </Route>
-        <Route path="/unit/edit/:id">
-          <EditUnitPage />
+        <Route path="/dashboard">
+          <DashboardVendorPage />
         </Route>
       </Switch>
     </>

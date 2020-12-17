@@ -20,9 +20,7 @@ export default function DashboardVendorPage() {
     dispatch(fetchUnit());
   }, []);
 
-  useEffect(() => {
-    console.log(units);
-  }, [units]);
+  useEffect(() => {}, [units]);
 
   useEffect(() => {
     if (!localStorage.vendor_access_token) {
@@ -30,11 +28,10 @@ export default function DashboardVendorPage() {
     }
   }, []);
   const switchPage = (page, unitId) => {
-    console.log(page);
-    if (page === "addPage") history.push("/unit/add");
+    if (page === "addPage") history.push("/dashboard/unit/add");
     if (page === "editPage") {
       dispatch(setLoading());
-      history.push(`/unit/edit/${unitId}`);
+      history.push(`/dashboard/unit/edit/${unitId}`);
     }
   };
 
