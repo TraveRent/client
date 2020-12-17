@@ -14,12 +14,11 @@ export default function VendorUnit({ unit, switchPage, alertDeleteUnitById }) {
         </div>
         <div className="col-8 nunito d-flex justify-content-between">
           <div className="">
-            <strong style={{ fontSize: "25px" }}>{unit.name}</strong>
+            <strong style={{ fontSize: "25px" }}>
+              {unit.brand + " " + unit.name}
+            </strong>
             <br />
             <div className="ml-auto d-flex align-items-start flex-column">
-              <i className="mb-1 fa fa-key" style={{ fontSize: "15px" }}>
-                {unit.vendor.email}
-              </i>
               <small className="p-1 bg-secondary text-white text-center rounded">
                 {unit.type + " " + unit.year}
               </small>

@@ -146,7 +146,7 @@ export default function EditUnitPage() {
             <div className="form-group">
               <label>Category</label>
               <select
-                class="custom-select"
+                className="custom-select"
                 value={updatedUnit.category}
                 onChange={(e) => handleInput("category", e.target.value)}
               >

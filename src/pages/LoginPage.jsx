@@ -52,7 +52,7 @@ export default function LoginPage() {
           title: "Oops...",
           icon: "error",
           html: `
-          <div class="ml-5 text-left">
+          <div className="ml-5 text-left">
             ${errors.join("<br/>")}
           </div>
           `,
@@ -123,7 +123,7 @@ export default function LoginPage() {
         <div className="col-5 russo-one ">
           <div className="mt-5 display-2 ml-5 pt-5 text-white">Login.</div>
           <div className="ml-4 pl-3">
-            <p class="ml-3 text-secondary">
+            <p className="ml-3 text-secondary">
               Don't have any account? <Link to="/register">Register here.</Link>
             </p>
           </div>
@@ -132,28 +132,28 @@ export default function LoginPage() {
           <div className="card shadow-lg bg-card2">
             <div className="rounded">
               <div className="px-auto pt-5 pb-5 mx-4">
-                <div class="input-group mb-2 mt-4">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">@</div>
+                <div className="input-group mb-2 mt-4">
+                  <div className="input-group-prepend">
+                    <div className="input-group-text">@</div>
                   </div>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Email"
                     required
                     value={user.email}
                     onChange={(e) => handleInput("email", e.target.value)}
                   />
                 </div>
-                <div class="input-group mb-2 mt-4">
-                  <div class="input-group-prepend">
-                    <div class="input-group-text">
+                <div className="input-group mb-2 mt-4">
+                  <div className="input-group-prepend">
+                    <div className="input-group-text">
                       <i className="fa fa-lock p-auto"></i>
                     </div>
                   </div>
                   <input
                     type="password"
-                    class="form-control"
+                    className="form-control"
                     placeholder="Password"
                     required
                     value={user.password}
@@ -166,9 +166,9 @@ export default function LoginPage() {
                   </h5>
                 </div>
                 <div className="row mx-3">
-                  <div class="col-6 input-group">
-                    <div class="input-group-prepend">
-                      <div class="input-group-text">
+                  <div className="col-6 input-group">
+                    <div className="input-group-prepend">
+                      <div className="input-group-text">
                         <input
                           type="radio"
                           name="category"
@@ -180,16 +180,16 @@ export default function LoginPage() {
                     </div>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       aria-label="Text input with radio button"
                       disabled
                       value="Vendor"
                     />
                   </div>
 
-                  <div class="col-6 input-group">
-                    <div class="input-group-prepend">
-                      <div class="input-group-text">
+                  <div className="col-6 input-group">
+                    <div className="input-group-prepend">
+                      <div className="input-group-text">
                         <input
                           type="radio"
                           value="User"
@@ -201,14 +201,14 @@ export default function LoginPage() {
                     </div>
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       aria-label="Text input with radio button"
                       disabled
                       value="User"
                     />
                   </div>
                 </div>
-                <div class="d-flex justify-content-center">
+                <div className="d-flex justify-content-center">
                   <button
                     className="btn bg-gold mt-4 px-5 regbtn"
                     onClick={() => handleSubmitButton()}
