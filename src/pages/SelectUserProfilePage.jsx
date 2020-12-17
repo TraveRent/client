@@ -183,6 +183,10 @@ export default function SelectUserProfilePage() {
                           (new Date(dataOrder.endDate).getDate() -
                             new Date(dataOrder.startDate).getDate()) *
                             dataOrder.unit.price
+                        ) == 0 ? dataOrder.unit.price : Math.abs(
+                          (new Date(dataOrder.endDate).getDate() -
+                            new Date(dataOrder.startDate).getDate()) *
+                            dataOrder.unit.price
                         )
                       )}
                     </strong>
