@@ -2,15 +2,14 @@ import React, { useState } from "react";
 import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { isURL } from "validator";
-import addUnit from "../hooks/addUnit";
+import axios from '../axios'
+import { setNewUnit, setError, setLoading } from "../store/actions"
 
 export default function AddUnitPage() {
   const accessToken = localStorage.getItem("vendor_access_token");
-  const vendorId = localStorage.getItem("id");
   const history = useHistory();
   const dispatch = useDispatch();
-  const [newUnit, setNewUnit] = useState({
+  const [newUnit, setUnit] = useState({
     name: "",
     brand: "",
     type: "",
@@ -24,31 +23,31 @@ export default function AddUnitPage() {
   const handleInput = (target, value) => {
     switch (target) {
       case "name":
-        setNewUnit({ ...newUnit, name: value });
+        setUnit({ ...newUnit, name: value });
         break;
       case "brand":
-        setNewUnit({ ...newUnit, brand: value });
+        setUnit({ ...newUnit, brand: value });
         break;
       case "type":
-        setNewUnit({ ...newUnit, type: value });
+        setUnit({ ...newUnit, type: value });
         break;
       case "year":
-        setNewUnit({ ...newUnit, year: value });
+        setUnit({ ...newUnit, year: value });
         break;
       case "category":
-        setNewUnit({ ...newUnit, category: value });
+        setUnit({ ...newUnit, category: value });
         break;
       case "imageUrl":
-        setNewUnit({ ...newUnit, imageUrl: value });
+        setUnit({ ...newUnit, imageUrl: value });
         break;
       case "location":
-        setNewUnit({ ...newUnit, location: value });
+        setUnit({ ...newUnit, location: value });
         break;
       case "price":
-        setNewUnit({ ...newUnit, price: value });
+        setUnit({ ...newUnit, price: value });
         break;
       default:
-        setNewUnit(newUnit);
+        setUnit(newUnit);
         break;
     }
   };
@@ -73,10 +72,32 @@ export default function AddUnitPage() {
         if (key === "imageUrl") fd.append("image-unit", newUnit[key][0]);
         fd.append(key, newUnit[key]);
       }
-      dispatch(addUnit(fd, accessToken));
-      history.push("/dashboard");
+      axios({
+        url: "/units/add",
+        method: "POST",
+        headers: { 'vendor_access_token': accessToken },
+        data: fd
+      })
+      .then(({ data }) => {
+        dispatch(setNewUnit( data ))
+        history.push("/dashboard")
+      })
+      .catch(( err ) => {
+        dispatch(setError(err))
+      })
+      .finally(() => {
+        dispatch(setLoading(false))
+      })
     }
   };
+
+  const switchPage = (page) => {
+    switch(page) {
+      case 'dashboardVendorPage':
+        history.push('/dashboard')
+      break
+    }
+  }
 
   return (
     <>
@@ -89,7 +110,7 @@ export default function AddUnitPage() {
                 <h4>Add Unit</h4>
                 <hr />
               </div>
-              <button className="btn bg-gold mb-3 nunito mx-2 text-white regbtn">
+              <button className="btn bg-gold mb-3 nunito mx-2 text-white regbtn" onClick={() => switchPage('dashboardVendorPage')}>
                 Dashboard
               </button>
             </div>
@@ -189,7 +210,7 @@ export default function AddUnitPage() {
                   <div className="btn mx-1 btn-primary" onClick={handleSubmit}>
                     Submit
                   </div>
-                  <div className="btn mx-1 btn-danger">Cancel</div>
+                  <div className="btn mx-1 btn-danger" onClick={() => switchPage('dashboardVendorPage')}>Cancel</div>
                 </div>
               </div>
             </div>
