@@ -29,7 +29,7 @@ export default function ResultPage() {
         showConfirmButton: false,
       });
     } else {
-      dispatch(setDataOrder(dataOrder));
+      dispatch(setDataOrder({ ...dataOrder, startDate, endDate }));
       router.push("/profile");
     }
   };
@@ -355,6 +355,7 @@ export default function ResultPage() {
                             data-toggle="modal"
                             data-target="#exampleModalLong"
                             className="btn bg-gold text-white mx-auto px-4 nunito mb-2"
+                            onClick={() => setDataOrderState({ unitId: unit._id, vendorId: unit.vendor._id })}
                           >
                             Order
                           </button>
