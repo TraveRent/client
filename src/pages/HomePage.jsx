@@ -6,6 +6,7 @@ import Autosuggest from "react-autosuggest";
 import fetchUnit from "../hooks/fetchUnit";
 import { useHistory } from "react-router-dom";
 import Toast from "../sweetalert2/toast";
+import _ from 'lodash'
 
 export default function HomePage() {
   const router = useHistory();
@@ -25,18 +26,18 @@ export default function HomePage() {
     // );
   }, []);
 
-  console.log(suggestion);
-
   const getSuggestions = (value) => {
     const inputValue = value.trim().toLowerCase();
     const inputLength = inputValue.length;
-
     return inputLength === 0
       ? []
-      : units.filter(
-          (unit) =>
-            unit.location.toLowerCase().slice(0, inputLength) === inputValue
-        );
+      : _.uniqBy(units.filter((unit) => {
+            return unit.location.toLowerCase().slice(0, inputLength) === inputValue
+          }),
+          function(n) {
+            return n.location
+          }
+      );
   };
   const getSuggestionValues = (suggestion) => suggestion.location;
 
@@ -56,7 +57,6 @@ export default function HomePage() {
   };
   const search = (event) => {
     event.preventDefault();
-    console.log(startDate)
     if (!endDate || !startDate || !value) {
       Toast.fire({
         title: "Please fill up all the fields!",
@@ -64,7 +64,6 @@ export default function HomePage() {
         showConfirmButton: false,
       });
     } else {
-      console.log("masuk");
       router.push({
         pathname: "/result",
         state: {
@@ -73,8 +72,8 @@ export default function HomePage() {
             (unit) => unit.location.toLowerCase() === value.toLowerCase()
           ),
           date: {
-            startDate: new Date(startDate),
-            endDate: new Date(endDate)
+            startDate,
+            endDate
           }
         },
       });

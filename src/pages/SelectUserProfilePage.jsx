@@ -121,11 +121,13 @@ export default function SelectUserProfilePage() {
 
   const saveOrder = (profileId) => {
     dispatch(saveNewOrder({ ...dataOrder, profileId }))
-    Swal.fire({
-      title: "Thank you",
-      text: "Your booking has received",
-      icon: 'success'
-    })
+    setTimeout(() => {
+      Swal.fire({
+        title: "Thank you",
+        text: "Your booking has received",
+        icon: 'success'
+      })
+    }, 500)
   }
 
 
