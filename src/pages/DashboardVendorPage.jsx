@@ -21,10 +21,6 @@ export default function DashboardVendorPage() {
   }, []);
 
   useEffect(() => {
-    dispatch(fetchUnit());
-  }, [units]);
-
-  useEffect(() => {
     if (!localStorage.vendor_access_token) {
       history.push("/");
     }
