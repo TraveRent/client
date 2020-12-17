@@ -20,7 +20,9 @@ export default function DashboardVendorPage() {
     dispatch(fetchUnit());
   }, []);
 
-  useEffect(() => {}, [units]);
+  useEffect(() => {
+    dispatch(fetchUnit());
+  }, [units]);
 
   useEffect(() => {
     if (!localStorage.vendor_access_token) {

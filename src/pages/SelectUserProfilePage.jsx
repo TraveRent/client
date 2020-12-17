@@ -168,7 +168,7 @@ export default function SelectUserProfilePage() {
                   </strong>
                 </h5>
                 <div className="container border rounded shadow">
-                  <p class="text-sm-left mt-2">
+                  <p className="text-sm-left mt-2">
                     Start Date: {dataOrder.startDate} <br />
                     End Date: {dataOrder.endDate} <br />
                     Price: {rpFormat(dataOrder.unit.price)} <br />
@@ -183,11 +183,13 @@ export default function SelectUserProfilePage() {
                           (new Date(dataOrder.endDate).getDate() -
                             new Date(dataOrder.startDate).getDate()) *
                             dataOrder.unit.price
-                        ) == 0 ? dataOrder.unit.price : Math.abs(
-                          (new Date(dataOrder.endDate).getDate() -
-                            new Date(dataOrder.startDate).getDate()) *
-                            dataOrder.unit.price
-                        )
+                        ) == 0
+                          ? dataOrder.unit.price
+                          : Math.abs(
+                              (new Date(dataOrder.endDate).getDate() -
+                                new Date(dataOrder.startDate).getDate()) *
+                                dataOrder.unit.price
+                            )
                       )}
                     </strong>
                   </h5>
