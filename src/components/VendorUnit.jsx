@@ -1,4 +1,5 @@
 import React from "react";
+import rpFormat from "../helpers/rpFormat";
 
 export default function VendorUnit({ unit, switchPage, alertDeleteUnitById }) {
   return (
@@ -26,7 +27,7 @@ export default function VendorUnit({ unit, switchPage, alertDeleteUnitById }) {
           </div>
           <div className="d-flex align-items-start flex-column mt-3 mr-2">
             <div className="mb-auto">
-              <strong>Rp. {unit.price}</strong>
+              <strong>{rpFormat(unit.price)}</strong>
             </div>
             <div className="d-flex justify-content-between">
               <i

@@ -20,6 +20,12 @@ export default function Navbar() {
     history.push("/");
   };
 
+  useEffect(() => {
+    if (localStorage.access_token || localStorage.vendor_access_token) {
+      dispatch(setIsLogin(true));
+    }
+  }, []);
+
   return (
     <>
       <nav className="d-flex justify-content-between pt-4">

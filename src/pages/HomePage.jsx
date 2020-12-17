@@ -6,7 +6,6 @@ import Autosuggest from "react-autosuggest";
 import fetchUnit from "../hooks/fetchUnit";
 import { useHistory } from "react-router-dom";
 import Toast from "../sweetalert2/toast";
-
 export default function HomePage() {
   const router = useHistory();
   const dispatch = useDispatch();
@@ -18,11 +17,9 @@ export default function HomePage() {
 
   useEffect(() => {
     dispatch(fetchUnit());
-    // const a = units.reduce(
-    //   (unique, item) =>
-    //     unique.location !== item.location ? unique : [...unique, item],
-    //   []
-    // );
+    if (localStorage.vendor_access_token) {
+      router.push("/dashboard");
+    }
   }, []);
 
   console.log(suggestion);
@@ -56,7 +53,7 @@ export default function HomePage() {
   };
   const search = (event) => {
     event.preventDefault();
-    console.log(startDate)
+    console.log(startDate);
     if (!endDate || !startDate || !value) {
       Toast.fire({
         title: "Please fill up all the fields!",
@@ -74,8 +71,8 @@ export default function HomePage() {
           ),
           date: {
             startDate: new Date(startDate),
-            endDate: new Date(endDate)
-          }
+            endDate: new Date(endDate),
+          },
         },
       });
     }

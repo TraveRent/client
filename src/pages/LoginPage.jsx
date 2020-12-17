@@ -1,16 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import validator from "validator";
 import axios from "../axios";
 import { useDispatch } from "react-redux";
 import { setIsLogin } from "../store/actions";
+import setUserLogin from "../store/actions/setUserLogin";
 
 export default function LoginPage() {
   const dispatch = useDispatch();
   const router = useHistory();
   const [user, setUser] = useState({ email: "", password: "" });
   const [userStatus, setUserStatus] = useState("");
+
+  useEffect(() => {
+    if (localStorage.vendor_access_token) {
+      router.push("/dashboard");
+    }
+  }, []);
 
   const handleInput = (target, value) => {
     switch (target) {
@@ -52,26 +59,48 @@ export default function LoginPage() {
         });
       } else {
         if (userStatus === "Vendor") {
-          const {
-            data: { accessToken },
-          } = await axios({
+          const { data } = await axios({
             method: "POST",
             url: "/vendors/login",
             data: user,
           });
-          localStorage.setItem("vendor_access_token", accessToken); // * Set access_token in local storage
+          localStorage.setItem("vendor_access_token", data.accessToken); // * Set access_token in local storage
+          localStorage.setItem(
+            "userInfo",
+            JSON.stringify({ id: data._id, fullName: data.fullName })
+          );
+          dispatch(
+            setUserLogin({
+              id: data._id,
+              fullName: data.fullName,
+            })
+          );
           dispatch(setIsLogin(true));
-          router.push("/dashboard"); // * Change into HomePage
+          router.push({
+            pathname: "/dashboard",
+            state: {
+              id: data._id,
+              fullName: data.fullName,
+            },
+          }); // * Change into HomePage
         } else {
-          const {
-            data: { accessToken },
-          } = await axios({
+          const { data } = await axios({
             method: "POST",
             url: "/users/login",
             data: user,
           });
-          localStorage.setItem("access_token", accessToken); // * Set access_token in local storage
+          localStorage.setItem(
+            "userInfo",
+            JSON.stringify({ id: data._id, fullName: data.fullName })
+          );
+          localStorage.setItem("access_token", data.accessToken); // * Set access_token in local storage
           dispatch(setIsLogin(true));
+          dispatch(
+            setUserLogin({
+              id: data._id,
+              fullName: data.fullName,
+            })
+          );
           router.push("/"); // * Change into HomePage
         }
       }

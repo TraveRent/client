@@ -209,74 +209,13 @@ export default function ResultPage() {
                 </div>
               </div>
             </div>
-            <div className="text-center pt-2 m-0">
-              <h4 className="m-0">Sort by</h4>
-            </div>
-            <div className="card-body m-0 pt-0">
-              <strong>Price</strong>
-              <div className="border pl-1 mt-2 shadow">
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="exampleRadios1"
-                    id="exampleRadios3"
-                    value="cheapest"
-                  />
-                  <label className="form-check-label" for="exampleRadios3">
-                    Cheapest
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="exampleRadios1"
-                    id="exampleRadios4"
-                    value="expensive"
-                  />
-                  <label className="form-check-label" for="exampleRadios4">
-                    Expensive
-                  </label>
-                </div>
-              </div>
-              <div className="mt-3">
-                <strong>Year</strong>
-                <div className="border pl-1 mt-2 shadow">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="exampleRadios"
-                      id="exampleRadios1"
-                      value="new"
-                    />
-                    <label className="form-check-label" for="exampleRadios1">
-                      Brand-new
-                    </label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="exampleRadios"
-                      id="exampleRadios2"
-                      value="late"
-                    />
-                    <label className="form-check-label" for="exampleRadios2">
-                      Latest
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
         <div className="col-7">
           <div className="card">
             {filtered.length > 0
               ? filtered.map((unit) => (
-                  <div key={filtered._id} className="card-body px-2 py-2 mx-3">
+                  <div key={unit._id} className="card-body px-2 py-2 mx-3">
                     <div className="row border rounded shadow">
                       <div className="col-4 p-0">
                         <img
@@ -296,7 +235,7 @@ export default function ResultPage() {
                               className="mb-1 fa fa-key"
                               style={{ fontSize: "15px" }}
                             >
-                              {unit.vendor.email}
+                              {" " + unit.vendor.fullName}
                             </i>
                             <small className="p-1 bg-secondary text-white text-center rounded">
                               {unit.type + " " + unit.year}
@@ -340,7 +279,7 @@ export default function ResultPage() {
                               className="mb-1 fa fa-key"
                               style={{ fontSize: "15px" }}
                             >
-                              {unit.vendor.email}
+                              {unit.vendor.fullName}
                             </i>
                             <small className="p-1 bg-secondary text-white text-center rounded">
                               {unit.type + " " + unit.year}

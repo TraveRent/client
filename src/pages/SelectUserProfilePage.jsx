@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux"
-import saveNewOrder from '../hooks/saveDataOrder'
+import { useSelector, useDispatch } from "react-redux";
+import saveNewOrder from "../hooks/saveDataOrder";
 import Swal from "sweetalert2";
 import axios from "../axios";
 import toast from "../sweetalert2/toast";
 
 export default function SelectUserProfilePage() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const history = useHistory();
-  const dataOrder = useSelector((state) => state.dataOrder)
+  const dataOrder = useSelector((state) => state.dataOrder);
   const [profile, setProfile] = useState({
     fullName: "",
     phoneNumber: "",
@@ -19,11 +19,14 @@ export default function SelectUserProfilePage() {
     imageSIM: "",
   });
   const [profiles, setProfiles] = useState([]);
-  const [profileId, setProfileId] = useState("")
+  const [profileId, setProfileId] = useState("");
 
   useEffect(async () => {
     if (!localStorage.access_token) {
       history.push("/");
+    }
+    if (localStorage.vendor_access_token) {
+      history.push("/dashboard");
     }
     const { data } = await axios.get("/profiles", {
       headers: { access_token: localStorage.access_token },
@@ -120,14 +123,13 @@ export default function SelectUserProfilePage() {
   };
 
   const saveOrder = (profileId) => {
-    dispatch(saveNewOrder({ ...dataOrder, profileId }))
+    dispatch(saveNewOrder({ ...dataOrder, profileId }));
     Swal.fire({
       title: "Thank you",
       text: "Your booking has received",
-      icon: 'success'
-    })
-  }
-
+      icon: "success",
+    });
+  };
 
   return (
     <>
@@ -138,7 +140,7 @@ export default function SelectUserProfilePage() {
             <div className="card shadow">
               <div className="card-title russo-one pt-3 text-center">
                 <h4>Select Profile</h4>
-                <hr/>
+                <hr />
                 {profiles.map((profile) => (
                   <div
                     key={profile._id}
@@ -165,7 +167,10 @@ export default function SelectUserProfilePage() {
                   </div>
                 ))}
               </div>
-              <button className="btn bg-gold mb-2 nunito mx-2 regbtn" onClick={() => saveOrder(profileId)}>
+              <button
+                className="btn bg-gold mb-2 nunito mx-2 regbtn"
+                onClick={() => saveOrder(profileId)}
+              >
                 Continue
               </button>
             </div>
