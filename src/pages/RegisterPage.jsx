@@ -64,7 +64,6 @@ export default function RegisterPage() {
         });
       } else {
         if (newUserStatus === "User") {
-          // console.log(newUser, 'ini user')
           const {
             data: { email },
           } = await axios({

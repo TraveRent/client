@@ -6,7 +6,7 @@ import Autosuggest from "react-autosuggest";
 import fetchUnit from "../hooks/fetchUnit";
 import { useHistory } from "react-router-dom";
 import Toast from "../sweetalert2/toast";
-import _ from 'lodash'
+import _ from "lodash";
 
 export default function HomePage() {
   const router = useHistory();
@@ -19,11 +19,9 @@ export default function HomePage() {
 
   useEffect(() => {
     dispatch(fetchUnit());
-    // const a = units.reduce(
-    //   (unique, item) =>
-    //     unique.location !== item.location ? unique : [...unique, item],
-    //   []
-    // );
+    if (localStorage.vendor_access_token) {
+      router.push("/dashboard");
+    }
   }, []);
 
   const getSuggestions = (value) => {
@@ -31,13 +29,16 @@ export default function HomePage() {
     const inputLength = inputValue.length;
     return inputLength === 0
       ? []
-      : _.uniqBy(units.filter((unit) => {
-            return unit.location.toLowerCase().slice(0, inputLength) === inputValue
+      : _.uniqBy(
+          units.filter((unit) => {
+            return (
+              unit.location.toLowerCase().slice(0, inputLength) === inputValue
+            );
           }),
-          function(n) {
-            return n.location
+          function (n) {
+            return n.location;
           }
-      );
+        );
   };
   const getSuggestionValues = (suggestion) => suggestion.location;
 
@@ -73,8 +74,8 @@ export default function HomePage() {
           ),
           date: {
             startDate,
-            endDate
-          }
+            endDate,
+          },
         },
       });
     }

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import fetchUnit from "../hooks/fetchUnit";
@@ -10,12 +10,17 @@ import Swal from "sweetalert2";
 export default function DashboardVendorPage() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { units, loading, error } = useSelector((state) => state);
-  const accessToken = localStorage.getItem("access_token");
-
+  const { loading, error, userLogin } = useSelector((state) => state);
+  const [userInfo, setUserInfo] = useState({});
+  const units = useSelector((state) =>
+    state.units.filter((unit) => unit.vendor._id === userInfo.id)
+  );
   useEffect(() => {
-    dispatch(fetchUnit(accessToken));
-  }, [dispatch, accessToken]);
+    setUserInfo(JSON.parse(localStorage.userInfo));
+    dispatch(fetchUnit());
+  }, []);
+
+  useEffect(() => {}, [units]);
 
   useEffect(() => {
     if (!localStorage.vendor_access_token) {
@@ -23,11 +28,10 @@ export default function DashboardVendorPage() {
     }
   }, []);
   const switchPage = (page, unitId) => {
-    console.log(page);
-    if (page === "addPage") history.push("/unit/add");
+    if (page === "addPage") history.push("/dashboard/unit/add");
     if (page === "editPage") {
       dispatch(setLoading());
-      history.push(`/unit/edit/${unitId}`);
+      history.push(`/dashboard/unit/edit/${unitId}`);
     }
   };
 
@@ -63,7 +67,7 @@ export default function DashboardVendorPage() {
               <div className="card-title russo-one pt-3 text-center">
                 <h4>Dashboard</h4>
                 <hr />
-                <h4>Hello, Akbar Rental!</h4>
+                <h4>Hello, {userInfo.fullName}!</h4>
               </div>
               <button
                 onClick={() => switchPage("addPage")}

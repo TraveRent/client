@@ -7,7 +7,8 @@ const initialState = {
   unit: {},
   isLogin: false,
   dataOrder: {},
-  orders: []
+  orders: [],
+  userLogin: {},
 };
 
 export default function unitReducer(state = initialState, action) {
@@ -44,16 +45,19 @@ export default function unitReducer(state = initialState, action) {
   if (action.type === "SET_ISLOGIN") {
     return { ...state, isLogin: action.payload };
   }
-  if( action.type === "SET_ID" ) {
-    console.log({ ...state, dataOrder: action.payload})
-    return { ...state, dataOrder: action.payload}
+  if (action.type === "SET_ID") {
+    console.log({ ...state, dataOrder: action.payload });
+    return { ...state, dataOrder: action.payload };
   }
-  if( action.type === "SET_ORDERS" ) {
-    return { ...state, orders: action.payload}
+  if (action.type === "SET_ORDERS") {
+    return { ...state, orders: action.payload };
   }
-  if( action.type === "ADD_ORDER" ) {
-    const newOrders = state.orders.concat(action.payload)
-    return { ...state, orders: newOrders }
+  if (action.type === "ADD_ORDER") {
+    const newOrders = state.orders.concat(action.payload);
+    return { ...state, orders: newOrders };
+  }
+  if (action.type === "SET_USER_LOGIN") {
+    return { ...state, userLogin: action.payload };
   }
   return state;
 }

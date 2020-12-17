@@ -1,21 +1,20 @@
-import axios from '../axios'
-import { setUnits, setError, setLoading } from '../store/actions'
+import axios from "../axios";
+import { setUnits, setError, setLoading } from "../store/actions";
 
 export default function fetchUnit(accessToken) {
-  return dispatch => {
+  return (dispatch) => {
     axios({
-      url: '/units',
-      method: 'GET',
-      headers: { 'access_token': accessToken }
+      url: "/units",
+      method: "GET",
     })
-    .then(({ data }) => {
-      dispatch(setUnits(data))
-    })
-    .catch(err => {
-      dispatch(setError(err))
-    })
-    .finally(() => {
-      dispatch(setLoading(false))
-    })
-  }
+      .then(({ data }) => {
+        dispatch(setUnits(data));
+      })
+      .catch((err) => {
+        dispatch(setError(err));
+      })
+      .finally(() => {
+        dispatch(setLoading(false));
+      });
+  };
 }
